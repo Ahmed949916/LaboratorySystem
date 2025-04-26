@@ -5,8 +5,9 @@ import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-import CustomButton from "@/src/components /CustomButton";
-import CustomInput from "@/src/components /CustomInput";
+import CustomButton from "../../components/CustomButton";
+import CustomInput from  "../../components/CustomInput";
+
 
 const Login = () => {
   const [formData, setFormData] = useState({

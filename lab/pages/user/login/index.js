@@ -1,4 +1,5 @@
-import Login from '@/src/container/LogIn'
+
+import Login from '../../../container/LogIn'
 import React from 'react'
 
 const page = () => {
