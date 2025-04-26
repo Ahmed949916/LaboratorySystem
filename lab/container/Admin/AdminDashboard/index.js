@@ -10,7 +10,7 @@ const AdminDashboard = () => {
   const router = useRouter();
 
   const handleCreateUser = () => {
-    router.push("/admin/create-user");
+    router.push("/admin/servie-offered");
   };
 
   const handleUploadReports = () => {
@@ -65,14 +65,15 @@ const AdminDashboard = () => {
             elevation={2}
             >
             <Typography variant="h6" sx={{ color: "#006241",fontWeight:"600" }}>
-              Create User
+            Services Offered
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Add a new user account in the system.
+              Edit Services
+
             </Typography>
             <Box mt={1}>
               <CustomButton variant="primary" onClick={handleCreateUser}>
-               Create New User
+              Edit Services
               </CustomButton>
             </Box>
           </Paper>
