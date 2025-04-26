@@ -1,3 +1,4 @@
+import PageHead from '@/components/PageHead';
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 const servicesOfffered=[{
@@ -24,11 +25,11 @@ const servicesOfffered=[{
 const ServcesOffered = () => {
   return (
   
-  <Box sx={{p:"20px"}}>
+  <Box  >
 
-    <Typography variant='h3'>ServcesOffered</Typography>
+   <PageHead text="Services Offered" />
 
-    <Box sx={{display:"flex",flexDirection:"column",gap:"20px"}}>
+    <Box sx={{display:"flex",flexDirection:"column",gap:"20px",p:"20px"}}>
 
     {servicesOfffered.map((service)=>(
       <Box key={service.id} sx={{border:"1px solid black",padding:"20px",borderRadius:"10px", cursor:"pointer"}}>
