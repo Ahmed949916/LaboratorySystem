@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import PageHead from "@/components/PageHead";
 
 const RELATIONSHIP = "Sister";
 
@@ -80,13 +81,7 @@ const Cases = () => {
 
   return (
     <Box sx={{ width: "100%", minHeight: "100vh", bgcolor: "#f5f5f5" }}>
-      <AppBar position="static" sx={{ bgcolor: "#006241" }}>
-        <Toolbar>
-          <Typography variant="h6" component="div">
-            Cases
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <PageHead text="Cases" />
 
       <Box sx={{ p: 2 }}>
         <Typography variant="h5" sx={{ fontWeight: 600, color: "#006241" }}>

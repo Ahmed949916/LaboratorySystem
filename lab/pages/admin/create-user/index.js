@@ -1,4 +1,4 @@
-import CreateUser from '@/src/container/Admin/CreateUser'
+import CreateUser from '../../../container/Admin/CreateUser'
 import React from 'react'
 
 const page = () => {

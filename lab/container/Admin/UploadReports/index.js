@@ -6,11 +6,11 @@ import { Box, Typography, IconButton } from "@mui/material";
 import { useRouter } from "next/navigation";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import CustomButton from "@/src/components /CustomButton";
-import CustomInput from "@/src/components /CustomInput";
-import CustomSelect from "@/src/components/CustomSelect";
-import PageHead from "@/src/components/PageHead";
-import PdfUploader from "@/src/components/PdfUploader";
+import CustomButton from "../../../components/CustomButton";
+import CustomInput from "../../../components/CustomInput";
+import CustomSelect from "../../../components/CustomSelect";
+import PageHead from "../../../components/PageHead";
+import PdfUploader from "../../../components/PdfUploader";
 
 const UploadReports = () => {
   const router = useRouter();
@@ -118,13 +118,13 @@ const UploadReports = () => {
         }
       });
 
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/reports-bulk`,
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      // await axios.post(
+      //   `${process.env.NEXT_PUBLIC_API_URL}/admin/reports-bulk`,
+      //   formData,
+      //   {
+      //     headers: { "Content-Type": "multipart/form-data" },
+      //   }
+      // );
 
       setSuccess("All reports uploaded successfully!");
       setPhone("");

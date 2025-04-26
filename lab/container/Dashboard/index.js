@@ -9,13 +9,13 @@ const Dashboard = () => {
   const router = useRouter();
 
   const handleViewReports = () => {
-    router.push("/reports");
+    router.push("/user/reports");
   };
 
   return (
     <Box
       sx={{
-        background: "linear-gradient(135deg, #eafaf1 0%, #ffffff 100%)",
+       
         width: "100%",
         minHeight: "100vh",
         display: "flex",

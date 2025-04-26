@@ -1,4 +1,4 @@
-import Cases from '@/src/container/Dashboard/Cases'
+import Cases from '../../../../container/Dashboard/Cases'
 import React from 'react'
 
 const page = () => {

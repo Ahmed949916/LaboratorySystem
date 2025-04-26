@@ -1,4 +1,4 @@
-import ReportsPage from '@/src/container/Dashboard/ReportsPage'
+import ReportsPage from '../../../container/Dashboard/ReportsPage'
 import React from 'react'
 
 const page = () => {

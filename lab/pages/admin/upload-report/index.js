@@ -1,4 +1,4 @@
-import UploadReports from '@/src/container/Admin/UploadReports'
+import UploadReports from '../../../container/Admin/UploadReports'
 import React from 'react'
 
 const page = () => {

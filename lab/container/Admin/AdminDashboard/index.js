@@ -3,9 +3,8 @@
 import React from "react";
 import { Box, Typography, Paper } from "@mui/material";
 import { useRouter } from "next/navigation";
-
-import PageHead from "@/src/components /PageHead";
-import CustomButton from "@/components/CustomButton";
+import PageHead from "../../../components/PageHead";
+import CustomButton from "../../../components/CustomButton";
 
 const AdminDashboard = () => {
   const router = useRouter();

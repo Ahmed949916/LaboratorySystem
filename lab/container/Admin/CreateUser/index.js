@@ -5,9 +5,9 @@ import axios from "axios";
 import { Box, Typography, Modal, Paper } from "@mui/material";
 import { useRouter } from "next/navigation";
 
-import CustomButton from "@/src/components /CustomButton";
-import CustomInput from "@/src/components /CustomInput";
-import PageHead from "@/src/components /PageHead";
+import CustomButton from "../../../components/CustomButton";
+import CustomInput from "../../..//components/CustomInput";
+import PageHead from "../../../components/PageHead";
 
 const CreateUser = () => {
   const router = useRouter();
@@ -37,8 +37,12 @@ const CreateUser = () => {
     try {
       const formattedPhone = `+92${phone.slice(1)}`;
 
-      const api = `${process.env.NEXT_PUBLIC_API_URL}/api/admin/create-user`;
-      const response = await axios.post(api, { phoneNumber: formattedPhone });
+
+
+
+      // API CALLING
+      // const api = `${process.env.NEXT_PUBLIC_API_URL}/api/admin/create-user`;
+      // const response = await axios.post(api, { phoneNumber: formattedPhone });
 
       const { message, initialPassword } = response.data;
       setSuccessMessage(message || "User created successfully.");

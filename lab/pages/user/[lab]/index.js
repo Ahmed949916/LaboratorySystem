@@ -1,10 +1,10 @@
  
-import AllLabs from '../../container/AllLabs'
+import Dashboard from '../../../container/Dashboard'
 import React from 'react'
 
 const page = () => {
   return (
-    <div><AllLabs/></div>
+    <div><Dashboard/></div>
   )
 }
 

@@ -1,4 +1,4 @@
-import Dashboard from '@/src/container/Admin/AdminDashboard'
+import Dashboard from '../../container/Admin/AdminDashboard'
 import React from 'react'
 
 const page = () => {
