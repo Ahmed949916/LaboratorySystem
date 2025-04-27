@@ -43,10 +43,11 @@ const CustomButton = ({
         }
       },
       tertiary: {
-        color: "black",
+        color: "#F5EFE7",
+        bgcolor:"#213555",
         border: "none",
         "&:hover": {
-          bgcolor: "#f0f0f0",
+          bgcolor: "#3A5A80",
         },
       },
     };
