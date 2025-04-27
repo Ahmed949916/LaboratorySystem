@@ -29,24 +29,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    console.log(formData)
 
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-        formData
-      );
-      console.log("Login successful:", response.data);
-
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-
-      router.push("/dashboard");
-    } catch (error) {
-      console.error(
-        "Login failed:",
-        error.response?.data?.error || error.message
-      );
-      setError(error.response?.data?.error || "An unexpected error occurred.");
-    }
+  
   };
 
   return (
@@ -56,9 +41,9 @@ const Login = () => {
         </Box>
       <Box
       sx={{
-        background: "#E3FDFD",
+        background: "#F5EFE7",
         width: { xs: "100%", md: "50%" },
-        minHeight: "100vh",
+        minHeight: "89vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -94,24 +79,24 @@ const Login = () => {
         </Box>
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <CustomInput
-            label="Phone Number"
-            name="phone"
-            type="tel"
-           
-            placeholder="03xxxxxxxxx"
-            value={formData.phone}
-            onChange={handleChange}
-          />
+        <CustomInput
+  label="Phone Number"
+  name="phone"
+  type="tel"
+  placeholder="03xxxxxxxxx"
+  inputVal={formData.phone}  
+  onInputChange={(val) => setFormData(prev => ({ ...prev, phone: val }))}
+/>
 
-          <CustomInput
-            label="Password"
-            name="password"
-            type="password"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={handleChange}
-          />
+<CustomInput
+  label="Password"
+  name="password"
+  type="password"
+  placeholder="Enter your password"
+  inputVal={formData.password}  
+  onInputChange={(val) => setFormData(prev => ({ ...prev, password: val }))}
+/>
+
         </Box>
 
         <Box sx={{ display: "flex", justifyContent: "flex-end", }}>

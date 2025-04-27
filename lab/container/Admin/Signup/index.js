@@ -19,21 +19,16 @@ const Signup = () => {
     address:"",
     city:"",
     confirmPassword:"",
+    
   });
   const [error, setError] = useState(null);
   const router = useRouter();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    console.log(formData)
 
     // try {
     //   const response = await axios.post(
@@ -64,7 +59,7 @@ const Signup = () => {
         </Box>
       <Box
       sx={{
-        background: "#E3FDFD",
+        background: "#F5EFE7",
         width: { xs: "100%", md: "50%" },
         minHeight: "100vh",
         display: "flex",
@@ -80,6 +75,7 @@ const Signup = () => {
         component="form"
         onSubmit={handleSubmit}
         sx={{
+         
           width: "90%",
           maxWidth: "400px",
           borderRadius: "16px",    
@@ -100,71 +96,69 @@ const Signup = () => {
         </Box>
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-          <CustomInput
-            label="Full Name"
-           
-            type="text"
-           
-            placeholder="Enter your full name"
-            value={formData.name}
-            name="name"
-            onChange={handleChange}
-          />
-             <CustomInput
-            label="Email"
-            name="email"
-            type="email"
-            placeholder="Enter your email"
-           
-         
-            value={formData.email}
-            onChange={handleChange}
-          />
-             <CustomInput
-            label="Address"
-            name="address"
-            type="text"
-           
-            placeholder="Enter your address"
-            value={formData.address}
-            onChange={handleChange}
-          />
-             <CustomInput
-            label="City"
-            name="city"
-            type="text"
-           
-            placeholder="Enter your city"
-            value={formData.city}
-            
-            onChange={handleChange}
-          />
-             <CustomInput
-            label="Phone Number"
-            name="phone"
-            type="tel"
-           
-            placeholder="03xxxxxxxxx"
-            value={formData.phone}
-            onChange={handleChange}
-          />
+        <CustomInput
+  label="Full Name"
+  name="name"
+  type="text"
+  placeholder="Enter your full name"
+  inputVal={formData.name}
+  onInputChange={(val) => setFormData((prev) => ({ ...prev, name: val }))}
+/>
 
-          <CustomInput
-            label="Create Password"
-            name="password"
-            type="password"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-             <CustomInput
-            label="Confirm Password"
-            name="confirmPassword"
-            type="password"
-            placeholder="Confirm your password"
-            value={formData.password}
-            onChange={handleChange}
-          />
+<CustomInput
+  label="Email"
+  name="email"
+  type="email"
+  placeholder="Enter your email"
+  inputVal={formData.email}
+  onInputChange={(val) => setFormData((prev) => ({ ...prev, email: val }))}
+/>
+
+<CustomInput
+  label="Address"
+  name="address"
+  type="text"
+  placeholder="Enter your address"
+  inputVal={formData.address}
+  onInputChange={(val) => setFormData((prev) => ({ ...prev, address: val }))}
+/>
+
+<CustomInput
+  label="City"
+  name="city"
+  type="text"
+  placeholder="Enter your city"
+  inputVal={formData.city}
+  onInputChange={(val) => setFormData((prev) => ({ ...prev, city: val }))}
+/>
+
+<CustomInput
+  label="Phone Number"
+  name="phone"
+  type="tel"
+  placeholder="03xxxxxxxxx"
+  inputVal={formData.phone}
+  onInputChange={(val) => setFormData((prev) => ({ ...prev, phone: val }))}
+/>
+
+<CustomInput
+  label="Create Password"
+  name="password"
+  type="password"
+  placeholder="Enter your password"
+  inputVal={formData.password}
+  onInputChange={(val) => setFormData((prev) => ({ ...prev, password: val }))}
+/>
+
+<CustomInput
+  label="Confirm Password"
+  name="confirmPassword"
+  type="password"
+  placeholder="Confirm your password"
+  inputVal={formData.confirmPassword}
+  onInputChange={(val) => setFormData((prev) => ({ ...prev, confirmPassword: val }))}
+/>
+
         </Box>
 
         <Box sx={{ display: "flex", justifyContent: "flex-end", }}>

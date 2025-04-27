@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
  
 import { Box, TextField, Typography, IconButton, InputAdornment } from "@mui/material";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
+ 
 import PreviewIcon from "./PreviewIcon"
 const CustomInput = ({
   label,
@@ -15,6 +14,7 @@ const CustomInput = ({
   helperText,
   inputVal,
   onInputChange,
+  ref,
   ...props
 }) => {
   const [inputValue, setInputValue] = useState(inputVal || "");
@@ -78,6 +78,8 @@ const CustomInput = ({
         </Typography>
       )}
    <TextField
+    inputRef={ref} 
+    
   fullWidth={fullWidth}
   variant="outlined"
   size="small"
@@ -96,13 +98,13 @@ const CustomInput = ({
       color: textColor || "black",
       borderRadius: "8px",
       "& fieldset": {
-        borderColor: validationError ? "#f44336" : "transparent",
+        borderColor: validationError ? "#f44336" : "none",
       },
       "&:hover fieldset": {
-        borderColor: validationError ? "#f44336" : "transparent",
+        borderColor: validationError ? "#f44336" : "none",
       },
       "&.Mui-focused fieldset": {
-        borderColor: validationError ? "#f44336" : "transparent",
+        borderColor: validationError ? "#f44336" : "#213555",
       },
       "&.Mui-error fieldset": {
         borderColor: "#f44336",

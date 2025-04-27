@@ -50,13 +50,13 @@ const CustomSelect = ({
             color: "black",
             borderRadius: "10px",
             "& fieldset": {
-              borderColor: error ? "#f44336" : "#006241",
+              borderColor: error ? "#f44336" : "none",
             },
             "&:hover fieldset": {
               borderColor: "#444",
             },
             "&.Mui-focused fieldset": {
-              borderColor: "#4DA1A9",
+              borderColor: "none",
             },
           },
           ...sx,
