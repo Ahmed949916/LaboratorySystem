@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import { Box, TextField, Typography } from "@mui/material";
-
+ 
+import { Box, TextField, Typography, IconButton, InputAdornment } from "@mui/material";
+ 
+import PreviewIcon from "./PreviewIcon"
 const CustomInput = ({
   label,
   type,
@@ -12,11 +14,17 @@ const CustomInput = ({
   helperText,
   inputVal,
   onInputChange,
+  ref,
   ...props
 }) => {
   const [inputValue, setInputValue] = useState(inputVal || "");
   const [validationError, setValidationError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
+  const handleTogglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+  
   useEffect(() => {
     if (inputVal !== undefined) {
       setInputValue(inputVal);
@@ -62,52 +70,69 @@ const CustomInput = ({
           sx={{
             fontSize: "14px",
             fontWeight: 600,
-            color: "black",
+            color: "#213555",
+            
           }}
         >
           {label}
         </Typography>
       )}
-      <TextField
-        fullWidth={fullWidth}
-        variant="outlined"
-        size="small"
-        placeholder={placeholder}
-        type={type}
-        value={inputValue}
-        onChange={handleChange}
-        inputProps={{
-          maxLength: type === "tel" ? 11 : undefined,
-        }}
-        error={Boolean(validationError)}
-        helperText={validationError || helperText}
-        sx={{
-          "& .MuiOutlinedInput-root": {
-            bgcolor: bgColor || "white",
-            color: textColor || "black",
-            borderRadius: "10px",
-            "& fieldset": {
-              borderColor: validationError ? "#f44336" : "#006241",
-            },
-          },
-          "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#ddd",
-          },
-          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-            borderColor: validationError ? "#f44336" : "#4DA1A9",
-          },
-          "& .MuiOutlinedInput-input::placeholder": {
-            color: bgColor === "#1E1E1E" ? "#fff" : "#444",
-          },
-          "& .MuiFormHelperText-root.Mui-error": {
-            color: "#f44336",
-          },
-          "& .MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline": {
-            borderColor: "#f44336",
-          },
-          ...props.sx,
-        }}
-      />
+   <TextField
+    inputRef={ref} 
+    
+  fullWidth={fullWidth}
+  variant="outlined"
+  size="small"
+  placeholder={placeholder}
+  type={type === "password" ? (showPassword ? "text" : "password") : type}
+  value={inputValue}
+  onChange={handleChange}
+  inputProps={{
+    maxLength: type === "tel" ? 11 : undefined,
+  }}
+  error={Boolean(validationError)}
+  helperText={validationError || helperText}
+  sx={{
+    "& .MuiOutlinedInput-root": {
+      bgcolor: bgColor || "white",
+      color: textColor || "black",
+      borderRadius: "8px",
+      "& fieldset": {
+        borderColor: validationError ? "#f44336" : "none",
+      },
+      "&:hover fieldset": {
+        borderColor: validationError ? "#f44336" : "none",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: validationError ? "#f44336" : "#213555",
+      },
+      "&.Mui-error fieldset": {
+        borderColor: "#f44336",
+      },
+    },
+    "& .MuiOutlinedInput-input::placeholder": {
+      color: bgColor === "#1E1E1E" ? "#fff" : "#444",
+    },
+    "& .MuiFormHelperText-root.Mui-error": {
+      color: "#f44336",
+    },
+    ...(props?.sx || {}),
+  }}
+  InputProps={
+    type === "password"
+      ? {
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton onClick={handleTogglePassword} edge="end">
+                <PreviewIcon/>
+              </IconButton>
+            </InputAdornment>
+          ),
+        }
+      : {}
+  }
+/>
+
     </Box>
   );
 };

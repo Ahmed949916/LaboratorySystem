@@ -11,6 +11,7 @@ const CustomButton = ({
   padding = "8px 24px",
   fullWidth,
   isLoading = false,
+  onClick,
   ...props 
 }) => {
   const getStyles = () => {
@@ -28,6 +29,7 @@ const CustomButton = ({
 
     const variants = {
       primary: {
+        
         bgcolor: '#006241',
         color: 'white',
         border: 'none',
@@ -43,10 +45,11 @@ const CustomButton = ({
         }
       },
       tertiary: {
-        color: "black",
+        color: "#F5EFE7",
+        bgcolor:"#213555",
         border: "none",
         "&:hover": {
-          bgcolor: "#f0f0f0",
+          bgcolor: "#3A5A80",
         },
       },
     };
@@ -60,11 +63,13 @@ const CustomButton = ({
   return (
     <MuiButton
       {...props}
+      onClick={onClick}
       disabled={isLoading || props.disabled}
       variant={variant === 'primary' ? 'contained' : 'outlined'}
       sx={{
         ...getStyles(),
         ...props.sx,
+        fontWeight:"600",
       }}
     >
       {startIcon}
