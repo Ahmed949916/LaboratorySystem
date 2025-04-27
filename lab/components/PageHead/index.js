@@ -10,7 +10,7 @@ const PageHead  = ({ text }) => {
       sx={{ 
         fontWeight: 600, 
         color: "#fff", 
-        background: "#006241", 
+        background: "#213555", 
         p: "16px" 
       }}
     >

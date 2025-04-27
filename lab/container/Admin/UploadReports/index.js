@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
-import { Box, Typography, IconButton } from "@mui/material";
+import { Box, Typography, IconButton, Divider } from "@mui/material";
 import { useRouter } from "next/navigation";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -11,11 +11,13 @@ import CustomInput from "../../../components/CustomInput";
 import CustomSelect from "../../../components/CustomSelect";
 import PageHead from "../../../components/PageHead";
 import PdfUploader from "../../../components/PdfUploader";
+import { ArrowForward } from "@mui/icons-material";
 
 const UploadReports = () => {
   const router = useRouter();
-
-  const [phone, setPhone] = useState("");
+ 
+  const [userData, setUserData] = useState(null);
+  const phone=useRef(null)
 
   const [reports, setReports] = useState([
     {
@@ -142,14 +144,22 @@ const UploadReports = () => {
       setError(err.response?.data?.message || "An error occurred");
     }
   };
+  function fetchUserData(){
+    console.log(phone)
+    if (!phone) {
+      return;}
+      console.log(phone.current?.value)
+    //api call to fetch user data(relationships)
+    setUserData(true)
+  }
 
   return (
     <>
       <PageHead text="Upload Reports" />
-
+     
       <Box
         sx={{
-          background: "#F8FAFC",
+          background: "#F5EFE7",
           width: "100%",
           minHeight: "100vh",
           display: "flex",
@@ -159,104 +169,130 @@ const UploadReports = () => {
           py: 6,
         }}
       >
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
-          sx={{
-            width: "90%",
-            maxWidth: 600,
-            bgcolor: "#ffffff",
-            borderRadius: "16px",
-            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-            border: "1px solid #cccccc",
-            display: "flex",
-            flexDirection: "column",
-            gap: 3.5,
-            p: { xs: 3, sm: 4 },
-          }}
-        >
-          <Typography variant="h5" sx={{ color: "#006241", fontWeight: "600" }}>
-            Upload Test Reports for a User
-          </Typography>
-
-          <CustomInput
+         <Box
+        sx={{
+          background: "#FAF7F3",
+          width:"90%",
+          maxWidth: 600,
+          borderRadius: 3,
+          mb: 3,
+          display: "flex",
+          gap:2,
+                    flexDirection: "column",
+          p: { xs: 3, sm: 4 },
+        }}
+      >
+      <CustomInput
             label="User Phone Number"
+            type={"tel"}
             name="phone"
-            placeholder="03xxxxxxxxx"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            ref={phone}
+            placeholder="Enter User Phone Number "
+            // value={phone}
+           
           />
 
-          {reports.map((report, idx) => (
-            <Box
-              key={idx}
-              sx={{
-                border: "1px solid #ccc",
-                borderRadius: "10px",
-                boxShadow: "0px 4px 6px rgba(127, 255, 202, 0.1)",
-                p: 2,
-                display: "flex",
-                flexDirection: "column",
-                gap: 2,
-                position: "relative",
-              }}
-            >
-              <Typography variant="subtitle2" sx={{ fontWeight: 600, color: "#006241" }}>
-                Test Report #{idx + 1}
-              </Typography>
 
-              <CustomInput
-                label="Test Name"
-                placeholder="e.g., CBC, LFT, Ultrasound"
-                value={report.testName}
-                onChange={(e) => handleReportChange(idx, "testName", e.target.value)}
-              />
-
-              <CustomSelect
-                label="Relationship"
-                options={[
-                  ...defaultRelationships.map((rel) => ({ label: rel, value: rel })),
-                  { label: "Add New Relation", value: "Other" },
-                ]}
-                value={report.isOther ? "Other" : report.relationship}
-                onChange={(e) => handleRelationshipChange(idx, e)}
-              />
-
-              {report.isOther && (
-                <CustomInput
-                  type="string"
-                  label="Enter Relationship"
-                  placeholder="e.g., Uncle, Aunt, Friend"
-                  value={report.otherRelationship}
-                  onChange={(e) => handleReportChange(idx, "otherRelationship", e.target.value)}
-                />
-              )}
-
-              {reports.length > 1 && (
-                <IconButton
-                  onClick={() => handleRemoveReport(idx)}
-                  sx={{ position: "absolute", top: 8, right: 8, color: "rgba(250, 101, 101, 0.93)" }}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              )}
-
-              <PdfUploader />
-            </Box>
-          ))}
-
-          <CustomButton variant="tertiary" onClick={handleAddAnother}>
-            + Add Another
+           <CustomButton variant="tertiary"   onClick={ fetchUserData}>
+           Fetch User Data
           </CustomButton>
+          </Box>
 
-          <CustomButton variant="primary" type="submit">
-            Upload
-          </CustomButton>
+       {userData&&(
+ <Box
+ component="form"
+ onSubmit={handleSubmit}
+ sx={{
+   width: "90%",
+   maxWidth: 600,
+   bgcolor: "#FAF7F3",
+   borderRadius: 3,
+   
+   display: "flex",
+   flexDirection: "column",
+   gap: 3.5,
+   p: { xs: 3, sm: 4 },
+ }}
+>
 
-          <CustomButton onClick={handleBack} variant="secondary">
-            Back
-          </CustomButton>
-        </Box>
+
+
+ <Divider sx={{  borderColor: "#213555" }} />
+
+ {reports.map((report, idx) => (
+   <Box
+     key={idx}
+     sx={{
+
+       p: 2,
+       display: "flex",
+       flexDirection: "column",
+       gap: 2,
+       position: "relative",
+     }}
+   >
+     <Typography variant="subtitle2" sx={{ fontWeight: 600, color: "#213555" }}>
+       Test Report #{idx + 1}
+     </Typography>
+
+     <CustomInput
+       label="Test Name"
+     
+       placeholder="e.g., CBC, LFT, Ultrasound"
+       value={report.testName}
+       onChange={(e) => handleReportChange(idx, "testName", e.target.value)}
+     />
+
+     <CustomSelect
+       label="Relationship"
+       options={[
+         ...defaultRelationships.map((rel) => ({ label: rel, value: rel })),
+         { label: "Add New Relation", value: "Other" },
+       ]}
+       value={report.isOther ? "Other" : report.relationship}
+       onChange={(e) => handleRelationshipChange(idx, e)}
+     />
+
+     {report.isOther && (
+       <CustomInput
+         type="string"
+         label="Enter Relationship"
+         placeholder="e.g., Uncle, Aunt, Friend"
+         value={report.otherRelationship}
+         onChange={(e) => handleReportChange(idx, "otherRelationship", e.target.value)}
+       />
+     )}
+
+     {reports.length > 1 && (
+       <IconButton
+         onClick={() => handleRemoveReport(idx)}
+         sx={{ position: "absolute", top: 8, right: 8, color: "rgba(250, 101, 101, 0.93)" }}
+       >
+         <DeleteIcon />
+       </IconButton>
+     )}
+
+     <PdfUploader />
+     <Divider sx={{ mt:"50px",borderColor: "#213555" }} />
+   </Box>
+ ))}
+
+ <CustomButton variant="tertiary" onClick={handleAddAnother}>
+  Add Another Report +
+ </CustomButton>
+ <Box sx={{ display: "flex", justifyContent: "space-between" ,gap:3
+ }}>
+
+ <CustomButton sx={{width:"50%"}} onClick={handleBack} variant="secondary">
+   Back
+ </CustomButton>
+ <CustomButton endIcon={<ArrowForward/>}sx={{width:"50%"}} variant="tertiary" type="submit">
+   Upload
+ </CustomButton>
+ </Box>
+</Box>
+       )}
+       
       </Box>
     </>
   );
