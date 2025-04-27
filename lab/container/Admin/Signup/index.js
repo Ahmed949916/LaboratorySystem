@@ -3,16 +3,22 @@
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
- 
+import axios from "axios";
+
 import CustomButton from "../../../components/CustomButton";
 import CustomInput from  "../../../components/CustomInput";
+import { ArrowForward, ArrowRight } from "@mui/icons-material";
 
 
 const Signup = () => {
   const [formData, setFormData] = useState({
     phone: "",
     password: "",
-    name: "",
+    name:"",
+    email:"",
+    address:"",
+    city:"",
+    confirmPassword:"",
   });
   const [error, setError] = useState(null);
   const router = useRouter();
@@ -49,10 +55,17 @@ const Signup = () => {
   };
 
   return (
-    <Box
+    <Box sx={{display:"flex", width:"100%", height:"100vh",  flexDirection: { xs: "column", md: "row" }}}>
+      <Box sx={{width: { xs: "100%", md: "50%" },padding:{xs:4,md:0},  background:"#213555" ,display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
+              <Typography mb={1} color="#F5EFE7" variant="h4">Lab Management</Typography>
+              <Typography  color="#F5EFE7" fontWeight={600}  >
+            Register to take your lab management to the next level !
+          </Typography>
+        </Box>
+      <Box
       sx={{
-        background: "linear-gradient(135deg, #eafaf1 0%, #ffffff 100%)",
-        width: "100%",
+        background: "#E3FDFD",
+        width: { xs: "100%", md: "50%" },
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
@@ -61,12 +74,7 @@ const Signup = () => {
         padding: "16px",
       }}
     >
-      <Typography
-        variant="h4"
-        sx={{ fontWeight: 600, color: "#006241", mb: 2 }}
-      >
-        IRTAQA LAB
-      </Typography>
+
 
       <Box
         component="form"
@@ -74,10 +82,7 @@ const Signup = () => {
         sx={{
           width: "90%",
           maxWidth: "400px",
-          bgcolor: "#ffffff",
-          borderRadius: "16px",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-          border: "1px solid #cccccc",
+          borderRadius: "16px",    
           display: "flex",
           flexDirection: "column",
           gap: "24px",
@@ -85,46 +90,86 @@ const Signup = () => {
         }}
       >
         <Box sx={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-          <Typography variant="h5" sx={{ fontWeight: 600, color: "#006241" }}>
-            Signup
-          </Typography>
-          <Typography color="#4F4F4F" fontSize="14px" fontWeight={600}>
-            Create an account to  connect to multiple labs and get your reports faster!!
-          </Typography>
+        <Typography
+        variant="h4"
+        sx={{ fontWeight: 600, color: "#213555" }}
+      >
+       Admin Signup
+      </Typography>
+         
         </Box>
 
-        <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           <CustomInput
+            label="Full Name"
+           
+            type="text"
+           
+            placeholder="Enter your full name"
+            value={formData.name}
+            name="name"
+            onChange={handleChange}
+          />
+             <CustomInput
+            label="Email"
+            name="email"
+            type="email"
+            placeholder="Enter your email"
+           
+         
+            value={formData.email}
+            onChange={handleChange}
+          />
+             <CustomInput
+            label="Address"
+            name="address"
+            type="text"
+           
+            placeholder="Enter your address"
+            value={formData.address}
+            onChange={handleChange}
+          />
+             <CustomInput
+            label="City"
+            name="city"
+            type="text"
+           
+            placeholder="Enter your city"
+            value={formData.city}
+            
+            onChange={handleChange}
+          />
+             <CustomInput
             label="Phone Number"
             name="phone"
             type="tel"
+           
             placeholder="03xxxxxxxxx"
             value={formData.phone}
             onChange={handleChange}
           />
-            <CustomInput
-            label="Name"
-            
-            type="text"
-            placeholder="Enter your name"
-     
-            value={formData.name}
-            onChange={handleChange}
-          />
 
           <CustomInput
-            label="Password"
+            label="Create Password"
             name="password"
             type="password"
             placeholder="Enter your password"
             value={formData.password}
             onChange={handleChange}
           />
+             <CustomInput
+            label="Confirm Password"
+            name="confirmPassword"
+            type="password"
+            placeholder="Confirm your password"
+            value={formData.password}
+            onChange={handleChange}
+          />
         </Box>
 
-        <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-          <CustomButton variant="primary" type="submit">
-           Create Account
+        <Box sx={{ display: "flex", justifyContent: "flex-end", }}>
+          <CustomButton  variant="tertiary" type="submit">
+           Register
           </CustomButton>
         </Box>
 
@@ -135,6 +180,8 @@ const Signup = () => {
         )}
       </Box>
     </Box>
+    </Box>
+ 
   );
 };
 
