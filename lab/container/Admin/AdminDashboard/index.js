@@ -20,10 +20,17 @@ const AdminDashboard = () => {
   const handleHomeSampling = () => {
     router.push("/admin/home-sampling");
   };
+  const lab={
+    name:"IRTAQA LAB",
+    address:"123 Main St, City, Country",
+    phone:"123-456-7890",
+    email:"irtaqalab@gmai.com",
+    city:"Lahore",
+  }
 const services=[{
-  name:"Services Offered",
-  description:"Edit Services",
-  buttonText:"Edit Services",
+  name:"Tests Offered",
+  description:"Edit Tests Offered by the lab.",
+  buttonText:"Edit Tests Offered",
   onClick:handleCreateUser,
 },
 {
@@ -36,7 +43,7 @@ const services=[{
  
   name:"See Patient Record",
   description:"View Patient's Complete Record",
-  buttonText:"View",
+  // buttonText:"View",
   onClick:handleUploadReports,
 },
 {
@@ -49,7 +56,7 @@ const services=[{
 ]
   return (
     <>
-    <PageHead text=" IRTAQA LAB - Admin"/>
+    <PageHead text={lab.name}/>
     <Box
       sx={{
         background:"#F5EFE7",
@@ -81,14 +88,11 @@ const services=[{
         <Box 
           sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr 1fr" }, gap: 3 }}
           >
-
             {services.map((service,index)=>{
               return(
        <Card service={service} index={index}/>
               )
             })}
- 
-    
         </Box>
       </Box>
     </Box>
