@@ -1,11 +1,22 @@
-import ServcesOffered from '../../../container/Admin/ServicesOffered'
+import ServicesOffered from '../../../container/Admin/ServicesOffered'
  
 import React from 'react'
 
-const page = () => {
+import { servicesOfffered } from "../../../../testOfferedData"; 
+const Page = ({ services }) => {
   return (
-    <div><ServcesOffered/></div>
-  )
-}
+    <div>
+      <ServicesOffered services={services} />
+    </div>
+  );
+};
 
-export default page
+export default Page;
+
+export async function getStaticProps() {
+  return {
+    props: {
+      services: servicesOfffered
+    },
+  };
+}
