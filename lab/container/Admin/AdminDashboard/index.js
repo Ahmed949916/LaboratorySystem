@@ -17,6 +17,9 @@ const AdminDashboard = () => {
   const handleUploadReports = () => {
     router.push("/admin/upload-report");
   };
+  const handleHomeSampling = () => {
+    router.push("/admin/home-sampling");
+  };
 const services=[{
   name:"Services Offered",
   description:"Edit Services",
@@ -35,7 +38,15 @@ const services=[{
   description:"View Patient's Complete Record",
   buttonText:"View",
   onClick:handleUploadReports,
-}]
+},
+{
+ 
+  name:"Manage Home Sampling",
+  description:"View Home Sampling Requests",
+  buttonText:"View",
+  onClick:handleHomeSampling,
+}
+]
   return (
     <>
     <PageHead text=" IRTAQA LAB - Admin"/>
