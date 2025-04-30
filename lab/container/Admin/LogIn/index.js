@@ -30,8 +30,6 @@ const Login = () => {
     e.preventDefault();
     setError(null);
     console.log(formData)
-
-  
   };
 
   return (
