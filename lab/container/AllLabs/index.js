@@ -1,17 +1,23 @@
 import { Typography,Box } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import React from 'react'
+
+ 
 const labs=[{
-  id: 1,
-  name:"lab 1",
-  location:"location 1",
-  status:"active",
-  },
+  id:1,
+  name:"IRTAQA LAB",
+  address:"123 Main St, City, Country",
+  phone:"123-456-7890",
+  email:"irtaqalab@gmai.com",
+  city:"Lahore",
+},
   {
     id: 2,
-    name:"lab 2",
-    location:"location 2",
-    status:"active",
+  name:"XYZ Lab",
+  address:"456 Elm St, City, Country",
+  phone:"987-654-3210",
+  email:"xyz@gmail.com",
+  city:"Karachi",
     },
   ]
 const AllLabs = () => {

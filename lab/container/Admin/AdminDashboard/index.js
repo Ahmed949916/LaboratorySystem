@@ -21,6 +21,7 @@ const AdminDashboard = () => {
     router.push("/admin/home-sampling");
   };
   const lab={
+    id:1,
     name:"IRTAQA LAB",
     address:"123 Main St, City, Country",
     phone:"123-456-7890",
