@@ -30,8 +30,12 @@ const AllLabs = () => {
       {labs.map((lab)=>(
         <Box onClick={()=>{router.push("/user/"+lab.id)}} key={lab.id} sx={{border:"1px solid black",padding:"20px",borderRadius:"10px", cursor:"pointer"}}>
           <Typography variant='h5'>{lab.name}</Typography>
-          <Typography variant='body1'>Location: {lab.location}</Typography>
-          <Typography variant='body1'>Status: {lab.status}</Typography>
+          <Typography variant='body1'>Location: {lab.address}</Typography>
+          {/* <Typography variant='body1'>Status: {lab.phone}</Typography> */}
+          <Typography variant='body1'>Email: {lab.email}</Typography>
+          <Typography variant='body1'>City: {lab.city}</Typography>
+          <Typography variant='body1'>Phone: {lab.phone}</Typography>
+
         </Box>
       ))}
 
