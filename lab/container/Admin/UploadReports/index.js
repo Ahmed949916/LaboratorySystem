@@ -11,7 +11,7 @@ import CustomInput from "../../../components/CustomInput";
 import CustomSelect from "../../../components/CustomSelect";
 import PageHead from "../../../components/PageHead";
 import PdfUploader from "../../../components/PdfUploader";
-import { ArrowForward } from "@mui/icons-material";
+import { ArrowForward, CloudUpload } from "@mui/icons-material";
 
 const UploadReports = () => {
   const router = useRouter();
@@ -155,7 +155,7 @@ const UploadReports = () => {
 
   return (
     <>
-      <PageHead text="Upload Reports" />
+      <PageHead text="Upload Reports" onBack={()=>{router.push("/admin")}}/>
      
       <Box
         sx={{
@@ -231,7 +231,7 @@ const UploadReports = () => {
        position: "relative",
      }}
    >
-     <Typography variant="subtitle2" sx={{ fontWeight: 600, color: "#213555" }}>
+     <Typography variant="h6" sx={{ fontWeight: 600, color: "#00000" }}>
        Test Report #{idx + 1}
      </Typography>
 
@@ -286,7 +286,7 @@ const UploadReports = () => {
  <CustomButton sx={{width:"50%"}} onClick={handleBack} variant="secondary">
    Back
  </CustomButton>
- <CustomButton endIcon={<ArrowForward/>}sx={{width:"50%"}} variant="tertiary" type="submit">
+ <CustomButton endIcon={<CloudUpload/>}sx={{width:"50%"}} variant="tertiary" type="submit">
    Upload
  </CustomButton>
  </Box>

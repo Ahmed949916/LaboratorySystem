@@ -1,8 +1,8 @@
-import { Paper, Typography,Box } from '@mui/material'
+import {   Typography,Box, Icon } from '@mui/material'
 import React from 'react'
 import CustomButton from '../CustomButton'
-
-const Card = ({service,index}) => {
+ 
+const Card = ({service,index,icon,buttonVariant="tertiary"}) => {
   return (
     <Box
     key={index}
@@ -16,6 +16,11 @@ const Card = ({service,index}) => {
       alignItems: "flex-start",
     }}
     >
+      {service.icon && (
+        <Box sx={{ background: "#F5EFE7", borderRadius: 2, p: 1 }}>
+          <Icon component={service.icon} sx={{ color: "#213555" }} />
+        </Box>
+      )}
     <Typography variant="h6" sx={{ color: "#213555",fontWeight:"600" }}>
     {service.name}
     </Typography>
@@ -35,7 +40,7 @@ const Card = ({service,index}) => {
     
      { service.buttonText&&(
       <Box mt={1}>
-        <CustomButton variant="tertiary" onClick={service.onClick}>
+        <CustomButton variant={buttonVariant} onClick={service.onClick}>
        {service.buttonText}
       </CustomButton>
     </Box>

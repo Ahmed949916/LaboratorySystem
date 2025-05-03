@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
-
+ 
 const PdfUploader = () => {
   const [pdfFile, setPdfFile] = useState(null);
   const [error, setError] = useState("");
@@ -40,8 +40,9 @@ const PdfUploader = () => {
             },
           }}
         >
-          Upload PDF
+          Add PDF
           <input type="file" accept="application/pdf" hidden onChange={handleFileChange} />
+          
         </Button>
       ) : (
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>

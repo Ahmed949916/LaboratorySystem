@@ -1,12 +1,32 @@
-import * as React from 'react';
-import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
+import React from "react";
+import { useRouter } from "next/router";
+ 
+import { CssBaseline, Box } from "@mui/material";
+import Footer from "@/components/Footer/Footer";
 
-import theme from '../theme';
-export default function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+  const isUserRoute = router.pathname.startsWith("/user");
+
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <CssBaseline />
-      <Component {...pageProps} />
-    </ThemeProvider>
+      <Box
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+        
+        }}
+      >
+        <Box sx={{ flexGrow: 1 }}>
+          <Component {...pageProps} />
+        </Box>
+        <Footer bgColor={isUserRoute ? "#20A0D8" : "#213555"} />
+
+          </Box>
+    </>
   );
 }
+
+export default MyApp;

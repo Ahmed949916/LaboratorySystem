@@ -44,12 +44,22 @@ const CustomButton = ({
           bgcolor: "#333"
         }
       },
+
+      
       tertiary: {
         color: "#F5EFE7",
         bgcolor:"#213555",
         border: "none",
         "&:hover": {
           bgcolor: "#3A5A80",
+        },
+      },
+      user: {
+        color: "#fff",
+        bgcolor:"#20A0D8",
+        border: "none",
+        "&:hover": {
+          bgcolor: "##BFE7F9",
         },
       },
     };

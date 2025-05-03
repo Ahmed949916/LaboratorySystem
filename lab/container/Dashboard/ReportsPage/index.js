@@ -1,10 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import {
-  AppBar,
-  Toolbar,
-  Typography,
   Box,
   List,
   ListItemButton,
@@ -28,7 +25,7 @@ const ReportsPage = () => {
   const router=useRouter()
   return (
     <Box sx={{ width: "100%", minHeight: "100vh", bgcolor: "#f5f5f5" }}>
-      <PageHead text="Reports" />
+      <PageHead text="Reports"  bg="#20A0D8" onBack={() => {router.push("/user/profile")}}/>
 
        
       <Box sx={{ flex: 1, overflow: "auto", padding: "8px" }}>
@@ -37,10 +34,10 @@ const ReportsPage = () => {
             <ListItemButton
               key={index}
               sx={{
-                borderLeft: "4px solid #006241",
+                borderLeft: "4px solid #20A0D8",
                 mb: 1,
                 bgcolor: "#fff",
-                color: "#006241",
+                color: "#213555",
                 boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
               }}
               onClick={() => router.push("/user/reports/cases" )}

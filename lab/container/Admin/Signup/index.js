@@ -97,10 +97,10 @@ const Signup = () => {
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
         <CustomInput
-  label="Full Name"
+  label="Lab Name"
   name="name"
   type="text"
-  placeholder="Enter your full name"
+  placeholder="Enter Lab Name"
   inputVal={formData.name}
   onInputChange={(val) => setFormData((prev) => ({ ...prev, name: val }))}
 />
@@ -115,10 +115,10 @@ const Signup = () => {
 />
 
 <CustomInput
-  label="Address"
+  label="Lab Address"
   name="address"
   type="text"
-  placeholder="Enter your address"
+  placeholder="Enter Lab address"
   inputVal={formData.address}
   onInputChange={(val) => setFormData((prev) => ({ ...prev, address: val }))}
 />
