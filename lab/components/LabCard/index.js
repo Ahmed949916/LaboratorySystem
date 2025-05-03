@@ -27,7 +27,7 @@ const LabCard = ({ lab, onClick }) => {
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
        
-              <Typography variant="h5" component="div" fontWeight="bold">
+              <Typography variant="h5" component="div" fontWeight="bold" color='#213555'>
                 {lab.name}
               </Typography>
             </Box>

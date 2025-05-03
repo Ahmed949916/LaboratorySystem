@@ -4,7 +4,6 @@ import React from "react";
 import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import PageHead from "../../components/PageHead";
-import CustomButton from "../../components/CustomButton";
 import Card from "@/components/Card";
 import { FileCopy, LocalHospital, MedicalServices, Home } from "@mui/icons-material";
 
@@ -69,7 +68,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <PageHead text={`Welcome to ${lab.name}`} bg="#20A0D8">
+      <PageHead text={`Welcome to ${lab.name}`} bg="#20A0D8" onBack={() => router.push("/user/")}>
         <Typography variant="subtitle2" color="#F5EFE7">
           Your health is our priority
         </Typography>
