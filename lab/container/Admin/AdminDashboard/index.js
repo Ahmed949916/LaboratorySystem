@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import PageHead from "../../../components/PageHead";
 import CustomButton from "../../../components/CustomButton";
 import Card from "@/components/Card";
+import { FileUpload, HomeFilled, MedicalServices } from "@mui/icons-material";
 
 const AdminDashboard = () => {
   const router = useRouter();
@@ -33,12 +34,14 @@ const services=[{
   description:"Edit Tests Offered by the lab.",
   buttonText:"Edit Tests Offered",
   onClick:handleCreateUser,
+  icon:MedicalServices
 },
 {
   name:"Upload Reports",
   description:"Upload medical/test reports for users.",
   buttonText:"Upload Report",
   onClick:handleUploadReports,
+  icon:FileUpload
 },
 {
  
@@ -53,11 +56,12 @@ const services=[{
   description:"View Home Sampling Requests",
   buttonText:"View",
   onClick:handleHomeSampling,
+  icon:HomeFilled
 }
 ]
   return (
     <>
-    <PageHead text={lab.name}/>
+    <PageHead text={lab.name} />
     <Box
       sx={{
         background:"#F5EFE7",
