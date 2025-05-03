@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Typography, 
   Box, 
@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import LabCard from "../../components/LabCard"
- 
+import { useRouter as rout} from "next/router";
 import PageHead from '../../components/PageHead';
 
 const labs = [
@@ -45,12 +45,14 @@ const AllLabs = () => {
 
   return (
      
-    <Box >
+    <Box sx={{minHeight:"100vh",background:"#F5EFE7"}}>
       <PageHead text="All Labs" bg="#20A0D8">
          <Typography variant="subtitle2" color='#fff'>
           Find and connect with medical laboratories in your area
         </Typography>
         </PageHead>
+ 
+
 
         <Box sx={{ my: 4, px: 2 }}>
   <TextField
@@ -84,8 +86,8 @@ const AllLabs = () => {
           ))}
          </Box>
       )}
- 
-    </Box>
+ </Box>
+  
 
   );
 };
