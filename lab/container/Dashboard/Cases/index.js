@@ -2,8 +2,7 @@
 
 import React, { useMemo } from "react";
 import {
-  AppBar,
-  Toolbar,
+ 
   Typography,
   Box,
   Divider,
@@ -17,6 +16,7 @@ import {
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PageHead from "@/components/PageHead";
+import { useRouter } from "next/navigation";
 
 const RELATIONSHIP = "Sister";
 
@@ -78,13 +78,14 @@ const Cases = () => {
   const handlePdfClick = (pdfUrl) => {
     window.open(pdfUrl, "_blank");
   };
+  const router=useRouter()
 
   return (
     <Box sx={{ width: "100%", minHeight: "100vh", bgcolor: "#f5f5f5" }}>
-      <PageHead text="Cases" />
+      <PageHead text="Cases"bg="#20A0D8" onBack={()=>{router.push("/user/reports")}} />
 
-      <Box sx={{ p: 2 }}>
-        <Typography variant="h5" sx={{ fontWeight: 600, color: "#006241" }}>
+      <Box sx={{ p: 4 }}>
+        <Typography variant="h5" sx={{ fontWeight: 600, color: "#213555", borderBottom:"2px solid #20A0D8" ,width:"fit-content" }}>
           {RELATIONSHIP}
         </Typography>
       </Box>
@@ -96,7 +97,7 @@ const Cases = () => {
             disableGutters
             sx={{
               mb: 2,
-              borderLeft: "4px solid #006241",
+              borderLeft: "4px solid #20A0D8",
               boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
               backgroundColor: "#fff",
               "&:before": { display: "none" },
@@ -138,7 +139,7 @@ const Cases = () => {
                       sx={{ mr: 2 }}
                     />
                     <PictureAsPdfIcon
-                      sx={{ color: "#E65100", cursor: "pointer" }}
+                      sx={{ color: "#213555", cursor: "pointer" }}
                       onClick={() => handlePdfClick(test.pdfUrl)}
                     />
                   </ListItem>

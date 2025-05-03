@@ -2,7 +2,7 @@ import {   Typography,Box, Icon } from '@mui/material'
 import React from 'react'
 import CustomButton from '../CustomButton'
  
-const Card = ({service,index,icon}) => {
+const Card = ({service,index,icon,buttonVariant="tertiary"}) => {
   return (
     <Box
     key={index}
@@ -40,7 +40,7 @@ const Card = ({service,index,icon}) => {
     
      { service.buttonText&&(
       <Box mt={1}>
-        <CustomButton variant="tertiary" onClick={service.onClick}>
+        <CustomButton variant={buttonVariant} onClick={service.onClick}>
        {service.buttonText}
       </CustomButton>
     </Box>
