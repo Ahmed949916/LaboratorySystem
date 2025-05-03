@@ -23,10 +23,12 @@ const PageHead = ({ text, onBack, onLogout, children, bg = "#213555" }) => {
           >
             {text}
           </Typography>
-            {/* Children Content */}
-      <Box mt={2}>
+        
+     {
+      children&&(<Box mt={2}>
         {children}
-      </Box>
+      </Box>)
+     } 
 
           </Box>
 
