@@ -5,9 +5,9 @@ import {
   TextField
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import LabCard from "../../components/LabCard"
-import { useRouter as rout} from "next/router";
-import PageHead from '../../components/PageHead';
+import LabCard from "../../../components/LabCard"
+ 
+import PageHead from '../../../components/PageHead';
 
 const labs = [
   {

@@ -1,5 +1,5 @@
 
-import Signup from '../../../container/Signup'
+import Signup from '../../../container/User/Signup'
 import React from 'react'
 
 const page = () => {

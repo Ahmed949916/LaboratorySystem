@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material';
+import {  Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 
 export default function Home() {

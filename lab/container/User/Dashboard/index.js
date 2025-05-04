@@ -3,14 +3,14 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import PageHead from "../../components/PageHead";
+import PageHead from "../../../components/PageHead";
 import Card from "@/components/Card";
 import { FileCopy, LocalHospital, MedicalServices, Home } from "@mui/icons-material";
 
 const Dashboard = () => {
   const router = useRouter();
   const { labId } = router.query;
-console.log("lab", labId);
+ 
   const [labData, setLabData] = useState(null);
 
   const labs = [

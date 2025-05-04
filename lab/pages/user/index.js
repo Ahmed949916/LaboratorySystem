@@ -1,5 +1,5 @@
  
-import AllLabs from '../../container/AllLabs'
+import AllLabs from '../../container/User/AllLabs'
 import React from 'react'
 
 const page = () => {

@@ -3,8 +3,8 @@
 import React from "react";
 import { Box, Typography, Paper } from "@mui/material";
 import { useRouter } from "next/navigation";
-import PageHead from "../../../components/PageHead";
-import CustomButton from "../../../components/CustomButton";
+import PageHead from " ../../../components/PageHead";
+ 
 import Card from "@/components/Card";
 import { FileUpload, HomeFilled, MedicalServices } from "@mui/icons-material";
 
