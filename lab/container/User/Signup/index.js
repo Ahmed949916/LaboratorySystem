@@ -1,34 +1,33 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-import CustomButton from "../../components/CustomButton";
-import CustomInput from  "../../components/CustomInput";
+import CustomButton from "../../../components/CustomButton";
+import CustomInput from  "../../../components/CustomInput";
+import { ArrowForward, ArrowRight } from "@mui/icons-material";
+import Link from "next/link";
 
 
 const Signup = () => {
   const [formData, setFormData] = useState({
     phone: "",
     password: "",
-    name: "",
+    name:"",
+    email:"",
+    confirmPassword:"",
+    
   });
   const [error, setError] = useState(null);
   const router = useRouter();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    console.log(formData)
 
     // try {
     //   const response = await axios.post(
@@ -50,10 +49,17 @@ const Signup = () => {
   };
 
   return (
-    <Box
+    <Box sx={{display:"flex", width:"100%",  flexDirection: { xs: "column", md: "row" }}}>
+      <Box sx={{width: { xs: "100%", md: "50%" },padding:{xs:4,md:0},  background:"#80D0F4" ,display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
+              <Typography mb={1} color="#F5EFE7" variant="h4">Lab Management</Typography>
+              <Typography  color="#F5EFE7" fontWeight={600}  >
+            Register to take your lab management to the next level !
+          </Typography>
+        </Box>
+      <Box
       sx={{
-        background: "linear-gradient(135deg, #eafaf1 0%, #ffffff 100%)",
-        width: "100%",
+        background: "#F5EFE7",
+        width: { xs: "100%", md: "50%" },
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
@@ -62,23 +68,16 @@ const Signup = () => {
         padding: "16px",
       }}
     >
-      <Typography
-        variant="h4"
-        sx={{ fontWeight: 600, color: "#006241", mb: 2 }}
-      >
-        IRTAQA LAB
-      </Typography>
+
 
       <Box
         component="form"
         onSubmit={handleSubmit}
         sx={{
+         
           width: "90%",
           maxWidth: "400px",
-          bgcolor: "#ffffff",
-          borderRadius: "16px",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-          border: "1px solid #cccccc",
+          borderRadius: "16px",    
           display: "flex",
           flexDirection: "column",
           gap: "24px",
@@ -86,46 +85,70 @@ const Signup = () => {
         }}
       >
         <Box sx={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-          <Typography variant="h5" sx={{ fontWeight: 600, color: "#006241" }}>
-            Signup
-          </Typography>
-          <Typography color="#4F4F4F" fontSize="14px" fontWeight={600}>
-            Create an account to  connect to multiple labs and get your reports faster!!
-          </Typography>
+        <Typography
+        variant="h4"
+        sx={{ fontWeight: 600, color: "#213555" }}
+      >
+       User Signup
+      </Typography>
+      <Typography fontSize={"12px"} sx={{ color: "#213555", fontWeight: 600,}} variant="subtitle1">Kindly fill out necessary details</Typography>
+         
         </Box>
 
-        <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <CustomInput
-            label="Phone Number"
-            name="phone"
-            type="tel"
-            placeholder="03xxxxxxxxx"
-            value={formData.phone}
-            onChange={handleChange}
-          />
-            <CustomInput
-            label="Name"
-            
-            type="text"
-            placeholder="Enter your name"
-     
-            value={formData.name}
-            onChange={handleChange}
-          />
+        <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        <CustomInput
+  label="Name"
+  name="name"
+  type="text"
+  placeholder="Enter Lab Name"
+  inputVal={formData.name}
+  onInputChange={(val) => setFormData((prev) => ({ ...prev, name: val }))}
+/>
 
-          <CustomInput
-            label="Password"
-            name="password"
-            type="password"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={handleChange}
-          />
+<CustomInput
+  label="Email"
+  name="email"
+  type="email"
+  placeholder="Enter your email"
+  inputVal={formData.email}
+  onInputChange={(val) => setFormData((prev) => ({ ...prev, email: val }))}
+/>
+
+ 
+
+ 
+<CustomInput
+  label="Phone Number"
+  name="phone"
+  type="tel"
+  placeholder="03xxxxxxxxx"
+  inputVal={formData.phone}
+  onInputChange={(val) => setFormData((prev) => ({ ...prev, phone: val }))}
+/>
+
+<CustomInput
+  label="Create Password"
+  name="password"
+  type="password"
+  placeholder="Enter your password"
+  inputVal={formData.password}
+  onInputChange={(val) => setFormData((prev) => ({ ...prev, password: val }))}
+/>
+
+<CustomInput
+  label="Confirm Password"
+  name="confirmPassword"
+  type="password"
+  placeholder="Confirm your password"
+  inputVal={formData.confirmPassword}
+  onInputChange={(val) => setFormData((prev) => ({ ...prev, confirmPassword: val }))}
+/>
+
         </Box>
 
-        <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-          <CustomButton variant="primary" type="submit">
-           Create Account
+        <Box sx={{ display: "flex", justifyContent: "flex-end", }}>
+          <CustomButton  variant="user" type="submit">
+           Register
           </CustomButton>
         </Box>
 
@@ -135,7 +158,22 @@ const Signup = () => {
           </Typography>
         )}
       </Box>
+ 
+
+          <Box sx={{ textAlign: "center" }}>
+            <Typography variant="body2" color="text.secondary">
+              Already Got an account?{" "}
+              <Link href="/user/login" style={{ color: "#20A0D8", textDecoration: "none", fontWeight: 500 }}>
+                Login
+              </Link>
+            </Typography>
+            
+          </Box>
+
     </Box>
+
+    </Box>
+ 
   );
 };
 

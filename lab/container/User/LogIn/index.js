@@ -3,10 +3,11 @@
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import axios from "axios";
-
-import CustomButton from "../../components/CustomButton";
-import CustomInput from  "../../components/CustomInput";
+ 
+import CustomButton from "../../../components/CustomButton";
+import CustomInput from  "../../../components/CustomInput";
+import { ArrowForward } from "@mui/icons-material";
+import Link from "next/link";
 
 
 const Login = () => {
@@ -28,32 +29,19 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-
-    try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-        formData
-      );
-      console.log("Login successful:", response.data);
-
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-
-      router.push("/dashboard");
-    } catch (error) {
-      console.error(
-        "Login failed:",
-        error.response?.data?.error || error.message
-      );
-      setError(error.response?.data?.error || "An unexpected error occurred.");
-    }
+    console.log(formData)
   };
 
   return (
-    <Box
+    <Box sx={{display:"flex", width:"100%",  minHeight:"100vh",  flexDirection: { xs: "column", md: "row" }}}>
+      <Box sx={{width: { xs: "100%", md: "50%" },padding:{xs:4,md:0},  background:"#80D0F4" ,display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
+              <Typography color="#fff" variant="h4">Lab Management</Typography>
+        </Box>
+      <Box
       sx={{
-        background: "linear-gradient(135deg, #eafaf1 0%, #ffffff 100%)",
-        width: "100%",
-        minHeight: "100vh",
+        background: "#F5EFE7",
+        width: { xs: "100%", md: "50%" },
+        minHeight: "89vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -61,12 +49,7 @@ const Login = () => {
         padding: "16px",
       }}
     >
-      <Typography
-        variant="h4"
-        sx={{ fontWeight: 600, color: "#006241", mb: 2 }}
-      >
-        IRTAQA LAB
-      </Typography>
+
 
       <Box
         component="form"
@@ -74,10 +57,7 @@ const Login = () => {
         sx={{
           width: "90%",
           maxWidth: "400px",
-          bgcolor: "#ffffff",
-          borderRadius: "16px",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-          border: "1px solid #cccccc",
+          borderRadius: "16px",    
           display: "flex",
           flexDirection: "column",
           gap: "24px",
@@ -85,37 +65,41 @@ const Login = () => {
         }}
       >
         <Box sx={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-          <Typography variant="h5" sx={{ fontWeight: 600, color: "#006241" }}>
-            Login
-          </Typography>
-          <Typography color="#4F4F4F" fontSize="14px">
-            Welcome! Good to see you back.
+        <Typography
+        variant="h4"
+        sx={{ fontWeight: 600, color: "#213555" }}
+      >
+       User Login
+      </Typography>
+          <Typography variant="" color="#213555" fontWeight={600} fontSize="12px">
+            Welcome! Good to see you back!!.
           </Typography>
         </Box>
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <CustomInput
-            label="Phone Number"
-            name="phone"
-            type="tel"
-            placeholder="03xxxxxxxxx"
-            value={formData.phone}
-            onChange={handleChange}
-          />
+        <CustomInput
+  label="Phone Number"
+  name="phone"
+  type="tel"
+  placeholder="03xxxxxxxxx"
+  inputVal={formData.phone}  
+  onInputChange={(val) => setFormData(prev => ({ ...prev, phone: val }))}
+/>
 
-          <CustomInput
-            label="Password"
-            name="password"
-            type="password"
-            placeholder="Enter your password"
-            value={formData.password}
-            onChange={handleChange}
-          />
+<CustomInput
+  label="Password"
+  name="password"
+  type="password"
+  placeholder="Enter your password"
+  inputVal={formData.password}  
+  onInputChange={(val) => setFormData(prev => ({ ...prev, password: val }))}
+/>
+
         </Box>
 
-        <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
-          <CustomButton variant="primary" type="submit">
-            Login
+        <Box sx={{ display: "flex", justifyContent: "flex-end", }}>
+          <CustomButton sx={{p:"4px 22px"}}variant="tertiary" type="submit">
+            <ArrowForward/>
           </CustomButton>
         </Box>
 
@@ -125,7 +109,18 @@ const Login = () => {
           </Typography>
         )}
       </Box>
+      <Box sx={{ textAlign: "center" }}>
+            <Typography variant="body2" color="text.secondary">
+              Do not have an account?{" "}
+              <Link href="/user/signup" style={{ color: "#20A0D8", textDecoration: "none", fontWeight: 500 }}>
+                Register
+              </Link>
+            </Typography>
+            </Box>
     </Box>
+   
+    </Box>
+ 
   );
 };
 

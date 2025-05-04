@@ -8,6 +8,7 @@ import axios from "axios";
 import CustomButton from "../../../components/CustomButton";
 import CustomInput from  "../../../components/CustomInput";
 import { ArrowForward, ArrowRight } from "@mui/icons-material";
+import Link from "next/link";
 
 
 const Login = () => {
@@ -33,7 +34,7 @@ const Login = () => {
   };
 
   return (
-    <Box sx={{display:"flex", width:"100%", height:"100vh",  flexDirection: { xs: "column", md: "row" }}}>
+    <Box sx={{display:"flex", width:"100%",   background: "#F5EFE7",minHeight:"100vh", flexDirection: { xs: "column", md: "row" }}}>
       <Box sx={{width: { xs: "100%", md: "50%" },padding:{xs:4,md:0},  background:"#213555" ,display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
               <Typography color="#F5EFE7" variant="h4">Lab Management</Typography>
         </Box>
@@ -109,6 +110,14 @@ const Login = () => {
           </Typography>
         )}
       </Box>
+      <Box sx={{ textAlign: "center" }}>
+                  <Typography variant="body2" color="text.secondary">
+                    Do not have an account?{" "}
+                    <Link href="/admin/signup" style={{ color: "#20A0D8", textDecoration: "none", fontWeight: 500 }}>
+                      Register
+                    </Link>
+                  </Typography>
+                  </Box>
     </Box>
     </Box>
  
