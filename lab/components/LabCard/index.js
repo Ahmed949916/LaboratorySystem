@@ -22,7 +22,7 @@ const LabCard = ({ lab, onClick }) => {
         borderRadius: 2, 
       }}
     >
-      <CardActionArea onClick={onClick}>
+      <CardActionArea onClick={onClick} sx={{background:"#FAF7F3"}}>
         <CardContent sx={{ p: 3 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>

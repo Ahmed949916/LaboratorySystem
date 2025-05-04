@@ -8,7 +8,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import PageHead from "../../../components/PageHead";
+import PageHead from "../../../../components/PageHead";
 import { useRouter } from "next/navigation";
 
 const MEMBERS = [

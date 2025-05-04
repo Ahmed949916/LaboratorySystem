@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
@@ -17,8 +17,6 @@ const Signup = () => {
     password: "",
     name:"",
     email:"",
-    address:"",
-    city:"",
     confirmPassword:"",
     
   });
@@ -51,8 +49,8 @@ const Signup = () => {
   };
 
   return (
-    <Box sx={{display:"flex", width:"100%",   flexDirection: { xs: "column", md: "row" }}}>
-      <Box sx={{width: { xs: "100%", md: "50%" },padding:{xs:4,md:0},  background:"#213555" ,display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
+    <Box sx={{display:"flex", width:"100%",  flexDirection: { xs: "column", md: "row" }}}>
+      <Box sx={{width: { xs: "100%", md: "50%" },padding:{xs:4,md:0},  background:"#80D0F4" ,display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
               <Typography mb={1} color="#F5EFE7" variant="h4">Lab Management</Typography>
               <Typography  color="#F5EFE7" fontWeight={600}  >
             Register to take your lab management to the next level !
@@ -91,14 +89,15 @@ const Signup = () => {
         variant="h4"
         sx={{ fontWeight: 600, color: "#213555" }}
       >
-       Admin Signup
+       User Signup
       </Typography>
+      <Typography fontSize={"12px"} sx={{ color: "#213555", fontWeight: 600,}} variant="subtitle1">Kindly fill out necessary details</Typography>
          
         </Box>
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
         <CustomInput
-  label="Lab Name"
+  label="Name"
   name="name"
   type="text"
   placeholder="Enter Lab Name"
@@ -115,24 +114,9 @@ const Signup = () => {
   onInputChange={(val) => setFormData((prev) => ({ ...prev, email: val }))}
 />
 
-<CustomInput
-  label="Lab Address"
-  name="address"
-  type="text"
-  placeholder="Enter Lab address"
-  inputVal={formData.address}
-  onInputChange={(val) => setFormData((prev) => ({ ...prev, address: val }))}
-/>
+ 
 
-<CustomInput
-  label="City"
-  name="city"
-  type="text"
-  placeholder="Enter your city"
-  inputVal={formData.city}
-  onInputChange={(val) => setFormData((prev) => ({ ...prev, city: val }))}
-/>
-
+ 
 <CustomInput
   label="Phone Number"
   name="phone"
@@ -163,7 +147,7 @@ const Signup = () => {
         </Box>
 
         <Box sx={{ display: "flex", justifyContent: "flex-end", }}>
-          <CustomButton  variant="tertiary" type="submit">
+          <CustomButton  variant="user" type="submit">
            Register
           </CustomButton>
         </Box>
@@ -174,16 +158,20 @@ const Signup = () => {
           </Typography>
         )}
       </Box>
-      <Box sx={{ textAlign: "center" }}>
+ 
+
+          <Box sx={{ textAlign: "center" }}>
             <Typography variant="body2" color="text.secondary">
               Already Got an account?{" "}
-              <Link href="/admin/login" style={{ color: "#20A0D8", textDecoration: "none", fontWeight: 500 }}>
+              <Link href="/user/login" style={{ color: "#20A0D8", textDecoration: "none", fontWeight: 500 }}>
                 Login
               </Link>
             </Typography>
             
           </Box>
+
     </Box>
+
     </Box>
  
   );

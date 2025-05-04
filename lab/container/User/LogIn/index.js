@@ -3,11 +3,10 @@
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import axios from "axios";
-
+ 
 import CustomButton from "../../../components/CustomButton";
 import CustomInput from  "../../../components/CustomInput";
-import { ArrowForward, ArrowRight } from "@mui/icons-material";
+import { ArrowForward } from "@mui/icons-material";
 import Link from "next/link";
 
 
@@ -34,9 +33,9 @@ const Login = () => {
   };
 
   return (
-    <Box sx={{display:"flex", width:"100%",   background: "#F5EFE7",minHeight:"100vh", flexDirection: { xs: "column", md: "row" }}}>
-      <Box sx={{width: { xs: "100%", md: "50%" },padding:{xs:4,md:0},  background:"#213555" ,display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
-              <Typography color="#F5EFE7" variant="h4">Lab Management</Typography>
+    <Box sx={{display:"flex", width:"100%",  minHeight:"100vh",  flexDirection: { xs: "column", md: "row" }}}>
+      <Box sx={{width: { xs: "100%", md: "50%" },padding:{xs:4,md:0},  background:"#80D0F4" ,display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center"}}>
+              <Typography color="#fff" variant="h4">Lab Management</Typography>
         </Box>
       <Box
       sx={{
@@ -70,7 +69,7 @@ const Login = () => {
         variant="h4"
         sx={{ fontWeight: 600, color: "#213555" }}
       >
-       Admin Login
+       User Login
       </Typography>
           <Typography variant="" color="#213555" fontWeight={600} fontSize="12px">
             Welcome! Good to see you back!!.
@@ -111,14 +110,15 @@ const Login = () => {
         )}
       </Box>
       <Box sx={{ textAlign: "center" }}>
-                  <Typography variant="body2" color="text.secondary">
-                    Do not have an account?{" "}
-                    <Link href="/admin/signup" style={{ color: "#20A0D8", textDecoration: "none", fontWeight: 500 }}>
-                      Register
-                    </Link>
-                  </Typography>
-                  </Box>
+            <Typography variant="body2" color="text.secondary">
+              Do not have an account?{" "}
+              <Link href="/user/signup" style={{ color: "#20A0D8", textDecoration: "none", fontWeight: 500 }}>
+                Register
+              </Link>
+            </Typography>
+            </Box>
     </Box>
+   
     </Box>
  
   );

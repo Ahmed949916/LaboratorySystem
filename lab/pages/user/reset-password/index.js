@@ -1,5 +1,5 @@
 
-import ChangePassword from '@/src/container/LogIn/ChangePassword'
+import ChangePassword from '@/src/container/User/LogIn/ChangePassword'
 import React from 'react'
 
 const page = () => {
