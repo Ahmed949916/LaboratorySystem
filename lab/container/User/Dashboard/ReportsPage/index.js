@@ -23,18 +23,18 @@ const MEMBERS = [
 const ReportsPage = () => {
 
   const router=useRouter()
+  
   return (
-    <Box sx={{ width: "100%", minHeight: "100vh", bgcolor: "#f5f5f5" }}>
+    <Box sx={{ width: "100%", minHeight: "100vh", bgcolor: "#f5f5f5",borderRadius:"0px" }}>
       <PageHead text="Reports"  bg="#20A0D8" onBack={() => {router.push("/user/profile")}}/>
-
-       
-      <Box sx={{ flex: 1, overflow: "auto", padding: "8px" }}>
+    <Box sx={{ flex: 1, overflow: "auto", padding: "8px" }}>
         <List sx={{ display: "flex", gap: "8px", flexDirection: "column" }}>
           {MEMBERS.map((member, index) => (
             <ListItemButton
               key={index}
               sx={{
                 borderLeft: "4px solid #20A0D8",
+                 
                 mb: 1,
                 bgcolor: "#fff",
                 color: "#213555",
