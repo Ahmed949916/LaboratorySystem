@@ -4,12 +4,15 @@ import { ThemeProvider } from "@mui/material/styles"
 import { CssBaseline, Box } from "@mui/material";
 import Footer from "@/components/Footer/Footer";
 import theme from '../theme';
+import { SessionProvider } from "next-auth/react";
+
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const isUserRoute = router.pathname.startsWith("/user");
 
   return (
     <>
+    <SessionProvider session={pageProps.session}>
     <ThemeProvider theme={theme}> 
       <CssBaseline />
       <Box
@@ -28,6 +31,7 @@ function MyApp({ Component, pageProps }) {
       
           </Box>
           </ThemeProvider>
+          </SessionProvider>
     </>
   );
 }

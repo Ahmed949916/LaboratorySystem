@@ -1,6 +1,7 @@
 import { ArrowBack, LogoutRounded } from "@mui/icons-material";
 import { Box, Typography, Tooltip, IconButton } from "@mui/material";
 import React from "react";
+import { signOut } from "next-auth/react"
 
 const PageHead = ({ text, onBack, onLogout, children, bg = "#213555" }) => {
   return (
@@ -49,7 +50,7 @@ const PageHead = ({ text, onBack, onLogout, children, bg = "#213555" }) => {
               },
             }}
           >
-            <IconButton onClick={onLogout} aria-label="Logout">
+            <IconButton onClick={() => signOut({ callbackUrl: "/admin/login" })} aria-label="Logout">
               <LogoutRounded sx={{ fontSize: "24px", color: "#fff" }} />
             </IconButton>
           </Tooltip>
