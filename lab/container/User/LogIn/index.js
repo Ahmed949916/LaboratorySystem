@@ -1,14 +1,12 @@
 "use client";
-
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
- 
+import { signIn } from "next-auth/react";
 import CustomButton from "../../../components/CustomButton";
-import CustomInput from  "../../../components/CustomInput";
+import CustomInput from "../../../components/CustomInput";
 import { ArrowForward } from "@mui/icons-material";
 import Link from "next/link";
-
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -29,8 +27,21 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    console.log(formData)
+
+    // Use NextAuth's signIn instead of fetch
+    const result = await signIn("credentials", {
+      redirect: false,
+      phone: formData.phone,
+      password: formData.password,
+    });
+
+    if (result?.error) {
+      setError("Invalid phone or password");
+    } else {
+      router.push("/"); // Redirect on success
+    }
   };
+
 
   return (
     <Box sx={{display:"flex", width:"100%",  minHeight:"100vh",  flexDirection: { xs: "column", md: "row" }}}>
