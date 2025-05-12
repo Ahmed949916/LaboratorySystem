@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useMemo } from "react";
+import React, { use, useMemo, useState,useEffect } from "react";
 import {
  
   Typography,
@@ -108,7 +108,7 @@ if(currentLab){
 
       <Box sx={{ p: 4 }}>
         <Typography variant="h5" sx={{ fontWeight: 600, color: "#213555", borderBottom:"2px solid #20A0D8" ,width:"fit-content" }}>
-          {label.charAt(0).toUpperCase() + label.slice(1)} 
+          {label?.charAt(0).toUpperCase() + label?.slice(1)} 
         </Typography>
       </Box>
 
