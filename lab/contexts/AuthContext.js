@@ -13,15 +13,17 @@ export const AuthProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    if (status === "loading") return;               
+    if (status === "loading") return;    
+       
     if (status === "authenticated") {
-      const { id, role, phone } = session.user;
+      const { id, role, phone ,name} = session.user;
       setAuth({
         loading: false,
-        user:   { id, role, phone },
+        user:   { id, role, phone,name },
         isAdmin: role === "admin",
         isUser:  role === "user",
       });
+      console.log("auth",auth)
     } else {
       setAuth({ loading: false, user: null, isAdmin: false, isUser: false });
     }
