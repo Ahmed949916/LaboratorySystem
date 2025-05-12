@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { use, useMemo } from "react";
 import {
  
   Typography,
@@ -16,9 +16,11 @@ import {
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PageHead from "@/components/PageHead";
-import { useRouter } from "next/navigation";
+ 
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/router";
 
-const RELATIONSHIP = "Sister";
+ 
 
 const CASES = [
   {
@@ -65,6 +67,26 @@ function parseCaseDate(dateNum, dateStr) {
 }
 
 const Cases = () => {
+  const router = useRouter();
+  const {label}=router.query
+  const {currentLab}=useAuth()
+ const [data,setData]=useState(null)
+ const [loading,setLoading]=useState(true)
+
+
+useEffect(() => {
+  async function getData(){
+  setLoading(true)
+  const {data}=await axios.get("/api/user/cases",{currentLab,label})
+  setData(data)
+  setLoading(false)
+}
+if(currentLab){
+  getData()
+}
+},[currentLab])
+
+
   const sortedCases = useMemo(() => {
     const copy = [...CASES];
     copy.sort((a, b) => {
@@ -78,7 +100,7 @@ const Cases = () => {
   const handlePdfClick = (pdfUrl) => {
     window.open(pdfUrl, "_blank");
   };
-  const router=useRouter()
+ 
 
   return (
     <Box sx={{ width: "100%", minHeight: "100vh", bgcolor: "#f5f5f5" }}>
@@ -86,7 +108,7 @@ const Cases = () => {
 
       <Box sx={{ p: 4 }}>
         <Typography variant="h5" sx={{ fontWeight: 600, color: "#213555", borderBottom:"2px solid #20A0D8" ,width:"fit-content" }}>
-          {RELATIONSHIP}
+          {label.charAt(0).toUpperCase() + label.slice(1)} 
         </Typography>
       </Box>
 

@@ -118,7 +118,7 @@ const Signup = () => {
   label="Name"
   name="name"
   type="text"
-  placeholder="Enter Lab Name"
+  placeholder="Enter Name"
   inputVal={formData.name}
   onInputChange={(val) => setFormData((prev) => ({ ...prev, name: val }))}
 />
