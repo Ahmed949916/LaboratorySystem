@@ -10,72 +10,57 @@ import { FileCopy, LocalHospital, MedicalServices, Home } from "@mui/icons-mater
 const Dashboard = () => {
   const router = useRouter();
   const { labId } = router.query;
- 
+
   const [labData, setLabData] = useState(null);
-
-  const labs = [
-    {
-      id: 1,
-      name: "IRTAQA LAB",
-      address: "123 Main St, Lahore, Pakistan",
-      phone: "123-456-7890",
-      email: "irtaqalab@gmai.com",
-      city: "Lahore",
-    },
-    {
-      id: 2,
-      name: "XYZ Lab",
-      address: "456 Elm St, Karachi, Pakistan",
-      phone: "987-654-3210",
-      email: "xyz@gmail.com",
-      city: "Karachi",
-    },
-  ];
-
-  useEffect(() => {
-    if (labId) {
-      const matchedLab = labs.find((lab) => String(lab.id) === String(labId));
-      if (matchedLab) setLabData(matchedLab);
-    }
-  }, [labId]);
-
-  const handleViewReports = () => router.push("/user/reports");
-  const handleBookTest = () => router.push("/user/book-test");
-  const handleRequestHomeSampling = () => router.push("/user/home-sampling");
-  const handleViewProfile = () => router.push("/user/profile");
+  const [loading, setLoading] = useState(true);
 
   const services = [
     {
       name: "View Reports",
       description: "Access your medical or test reports.",
       buttonText: "Go to Reports",
-      onClick: handleViewReports,
+      onClick: () => router.push("/user/reports"),
       icon: FileCopy,
     },
     {
       name: "Book a Test",
       description: "Schedule laboratory tests.",
       buttonText: "Book Now",
-      onClick: handleBookTest,
+      onClick: () => router.push("/user/book-test"),
       icon: MedicalServices,
     },
     {
       name: "Request Home Sampling",
       description: "Request lab sample collection at your home.",
       buttonText: "Request",
-      onClick: handleRequestHomeSampling,
+      onClick: () => router.push("/user/home-sampling"),
       icon: Home,
     },
     {
       name: "Medical History",
       description: "View your complete medical history for this lab.",
       buttonText: "View",
-      onClick: handleViewProfile,
+      onClick: () => router.push("/user/profile"),
       icon: LocalHospital,
     },
   ];
 
-  if (!labData) return <Typography p={4}>Loading lab data...</Typography>;
+  useEffect(() => {
+    async function fetchLabById() {
+        const res = await fetch("/api/user/allLabs");
+        const data = await res.json();
+        const found = data.admins.find((lab) => 
+          lab._id.toString() === labId.toString());
+        setLabData(found)
+        setLoading(false);
+  }
+
+    fetchLabById();
+  }, [labId]);
+
+  if (loading || !labData) {
+    return <Typography p={4}>Loading lab data...</Typography>;
+  }
 
   return (
     <>
@@ -108,8 +93,15 @@ const Dashboard = () => {
           <Typography variant="h4" color="#213555" fontWeight={600}>
             User Dashboard
           </Typography>
+
           <Typography variant="body1" color="#4F4F4F" fontWeight={600}>
-            Welcome back, Ahmad!
+            Lab: {labData.name} ({labData.city})
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Contact: {labData.phone} — {labData.email}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Address: {labData.address}
           </Typography>
 
           <Box
