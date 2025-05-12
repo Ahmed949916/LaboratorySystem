@@ -6,7 +6,7 @@ export default async function handler(req, res) {
       try {
         console.log(process.env.MONGO_URI);
         console.log(req.body)
-        const { admin } = req.body; // Match the structure you're sending from frontend
+        const { admin } = req.body;  
         const { phone, password, name, email, address, city, confirmPassword } = admin;
   
         // Basic validation

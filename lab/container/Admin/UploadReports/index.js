@@ -25,6 +25,7 @@ const UploadReports = () => {
       relationship: "Self",
       isOther: false,
       otherRelationship: "",
+      name: "",
       file: null,
     },
   ]);
@@ -254,13 +255,22 @@ const UploadReports = () => {
      />
 
      {report.isOther && (
+      <>
        <CustomInput
          type="string"
          label="Enter Relationship"
          placeholder="e.g., Uncle, Aunt, Friend"
          value={report.otherRelationship}
          onChange={(e) => handleReportChange(idx, "otherRelationship", e.target.value)}
-       />
+         />
+        <CustomInput
+         type="string"
+         label="Enter Name"
+         placeholder=""
+         value={report.name}
+         onChange={(e) => handleReportChange(idx, "name", e.target.value)}
+         />
+         </>
      )}
 
      {reports.length > 1 && (

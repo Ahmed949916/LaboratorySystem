@@ -9,6 +9,7 @@ import { ArrowForward } from "@mui/icons-material";
 import Link from "next/link";
 
 const Login = () => {
+ 
   const [formData, setFormData] = useState({
     phone: "",
     password: "",
@@ -27,8 +28,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-
-    // Use NextAuth's signIn instead of fetch
+ 
     const result = await signIn("credentials", {
       redirect: false,
       phone: formData.phone,
@@ -38,7 +38,9 @@ const Login = () => {
     if (result?.error) {
       setError("Invalid phone or password");
     } else {
-      router.push("/"); // Redirect on success
+     
+     
+      router.push("/user");  
     }
   };
 

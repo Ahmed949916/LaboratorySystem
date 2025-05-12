@@ -22,12 +22,16 @@ export default NextAuth({
           password: credentials.password,
         });
         await client.close();
+           console.log("user")
+         
+      
 
         if (user) 
             return { 
             id: user._id.toString(), 
             phone: user.phone, 
-            role: "user" 
+            role: "user", 
+            name: user.name
         };
         return null;
       },
@@ -47,13 +51,39 @@ export default NextAuth({
           phone: credentials.phone,
           password: credentials.password,
         });
+     
         await client.close();
+        if(admin) console.log(admin)
+          console.log("admin")
+         
 
-        if (admin) return { id: admin._id.toString(), phone: admin.phone, role: "admin" };
+        if (admin) return { id: admin._id.toString(), phone: admin.phone, role: "admin" ,name: admin.name};
         return null;
       },
     }),
   ],
+
+  callbacks: {
+  async jwt({ token, user }) {
+    if (user) {
+      token.id = user.id;
+      token.role = user.role;
+      token.name = user.name;
+      token.phone = user.phone;
+    }
+    return token;
+  },
+  async session({ session, token }) {
+    if (token) {
+      session.user.id = token.id;
+      session.user.role = token.role;
+      session.user.name = token.name;
+      session.user.phone = token.phone;
+    }
+    return session;
+  },
+},
+
 
   session: { strategy: "jwt" },
 

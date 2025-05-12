@@ -50,7 +50,7 @@ const PageHead = ({ text, onBack, onLogout, children, bg = "#213555" }) => {
               },
             }}
           >
-            <IconButton onClick={() => signOut({ callbackUrl: "/admin/login" })} aria-label="Logout">
+            <IconButton onClick={() => signOut({ callbackUrl: "/" })} aria-label="Logout">
               <LogoutRounded sx={{ fontSize: "24px", color: "#fff" }} />
             </IconButton>
           </Tooltip>

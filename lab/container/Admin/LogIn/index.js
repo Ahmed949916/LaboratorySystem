@@ -8,8 +8,11 @@ import CustomButton from "../../../components/CustomButton";
 import CustomInput from "../../../components/CustomInput";
 import { ArrowForward } from "@mui/icons-material";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+
 
 const Login = () => {
+       
   const [formData, setFormData] = useState({
     phone: "",
     password: "",
@@ -34,12 +37,13 @@ const Login = () => {
       phone: formData.phone,
       password: formData.password,
       role: "admin", 
+      
     });
 
     if (result?.error) {
       setError("Invalid admin credentials");
     } else {
-      router.push("/admin/servie-offered");
+      router.push("/admin");
     }
   };
 
