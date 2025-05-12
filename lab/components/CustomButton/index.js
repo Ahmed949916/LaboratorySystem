@@ -1,6 +1,4 @@
- 
-import { Button as MuiButton } from '@mui/material';
-import { ReactNode } from 'react';
+import { Button as MuiButton, CircularProgress } from '@mui/material';
 
 const CustomButton = ({ 
   children, 
@@ -10,7 +8,7 @@ const CustomButton = ({
   fontWeight = "500",
   padding = "8px 24px",
   fullWidth,
-  isLoading = false,
+  loading = false,
   onClick,
   ...props 
 }) => {
@@ -22,6 +20,7 @@ const CustomButton = ({
       fontWeight: fontWeight,
       display: 'flex',
       alignItems: 'center',
+      justifyContent: 'center',
       gap: '12px',
       minWidth: 'fit-content',
       width: fullWidth ? '100%' : 'auto',
@@ -29,13 +28,11 @@ const CustomButton = ({
 
     const variants = {
       primary: {
-        
         bgcolor: '#006241',
         color: 'white',
         border: 'none',
         "&:hover": {
           bgcolor: "rgb(1, 129, 86)",
-          border: 'none',
         }
       },
       secondary: {
@@ -44,14 +41,11 @@ const CustomButton = ({
         border: 'none',
         "&:hover": {
           bgcolor: "#333",
-          border: 'none',
         }
       },
-
-      
       tertiary: {
         color: "#F5EFE7",
-        bgcolor:"#213555",
+        bgcolor: "#213555",
         border: "none",
         "&:hover": {
           bgcolor: "#3A5A80",
@@ -59,12 +53,10 @@ const CustomButton = ({
       },
       user: {
         color: "#fff",
-        bgcolor:"#20A0D8",
+        bgcolor: "#20A0D8",
         border: "none",
         "&:hover": {
           bgcolor: "#20A0FF",
-         
-          border: "none",
         },
       },
     };
@@ -79,17 +71,23 @@ const CustomButton = ({
     <MuiButton
       {...props}
       onClick={onClick}
-      disabled={isLoading || props.disabled}
+      disabled={loading || props.disabled}
       variant={variant === 'primary' ? 'contained' : 'outlined'}
       sx={{
         ...getStyles(),
         ...props.sx,
-        fontWeight:"600",
+        fontWeight: "600",
       }}
     >
-      {startIcon}
-      {children}
-      {endIcon}
+      {loading ? (
+        <CircularProgress size={20} sx={{ color: "#fff" }} />
+      ) : (
+        <>
+          {startIcon}
+          {children}
+          {endIcon}
+        </>
+      )}
     </MuiButton>
   );
 };

@@ -1,51 +1,82 @@
 "use client";
 
-import React from "react";
-import {
-  Box,
-  List,
-  ListItemButton,
-  ListItemText,
-} from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, List, ListItemButton, ListItemText } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import PageHead from "../../../../components/PageHead";
 import { useRouter } from "next/navigation";
-
-const MEMBERS = [
-  { relationship: "Sister", name: "Ayesha", age: 40, gender: "Male" },
-  { relationship: "Brother", name: "Ahmed", age: 16, gender: "Female" },
-  { relationship: "Father", name: "Rizwan", age: 15, gender: "Female" },
-  { relationship: "Wife", name: "Fatima", age: 15, gender: "Female" },
-  { relationship: "Mother", name: "Zainab", age: 25, gender: "Male" },
-  { relationship: "Self", name: "Ali", age: 26, gender: "Male" },
-];
+import { useAuth } from "@/contexts/AuthContext";
+import axios from "axios";
 
 const ReportsPage = () => {
+    
 
-  const router=useRouter()
-  
+  const router = useRouter();
+
+  const { user, isUser, loading } = useAuth();
+
+  const [relations, setRelations] = useState([]);
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    if (user) {
+      setUserData(user);
+    }
+  }, [user]);
+
+useEffect(() => {
+  const fetchRelationships = async () => {
+    try {
+      const { data } = await axios.get(`/api/admin/relations?phone=${user?.phone}`);
+      const fetchedRelations = data.relations || [];
+console.log("Fetched relations:", fetchedRelations);
+      const selfEntry = {
+        userId:user.id,
+        name: user.name,
+        label: "self",
+      };
+
+      
+      setRelations([selfEntry, ...fetchedRelations]);
+      console.log("Updated relations:", [selfEntry, ...fetchedRelations]);
+    } catch (err) {
+      console.error("Failed to fetch relations:", err);
+    }
+  };
+
+  if (user?.phone) {
+    fetchRelationships();
+  }
+}, [user]);
+
+  if (loading) return null;
+  if (!isUser) {
+    router.push("/");
+    return null;
+  }
+
   return (
-    <Box sx={{ width: "100%", minHeight: "100vh", bgcolor: "#f5f5f5",borderRadius:"0px" }}>
-      <PageHead text="Reports"  bg="#20A0D8" onBack={() => {router.push("/user/profile")}}/>
-    <Box sx={{ flex: 1, overflow: "auto", padding: "8px" }}>
+    <Box sx={{ width: "100%", minHeight: "100vh", bgcolor: "#f5f5f5" }}>
+      <PageHead text="Reports" bg="#20A0D8" onBack={() => router.push("/user/profile")} />
+      <Box sx={{ flex: 1, overflow: "auto", padding: "8px" }}>
         <List sx={{ display: "flex", gap: "8px", flexDirection: "column" }}>
-          {MEMBERS.map((member, index) => (
+          {relations.map((rel, index) => (
+            
             <ListItemButton
               key={index}
               sx={{
                 borderLeft: "4px solid #20A0D8",
-                 
                 mb: 1,
                 bgcolor: "#fff",
                 color: "#213555",
-                boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
               }}
-              onClick={() => router.push("/user/reports/cases" )}
+              onClick={() => router.push("/user/reports/"+rel.label)}
             >
-              <ListItemText
-                primary={`${member.relationship} - ${member.name}`}
-                secondary={`${member.age} ${member.gender}`}
-              />
+                                <ListItemText
+                      primary={rel.name?.charAt(0).toUpperCase() + rel.name?.slice(1)}
+                      secondary={rel.label?.charAt(0).toUpperCase() + rel.label?.slice(1)}
+                    />
+
               <ChevronRightIcon />
             </ListItemButton>
           ))}

@@ -1,29 +1,27 @@
 import React, { useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
- 
-const PdfUploader = () => {
-  const [pdfFile, setPdfFile] = useState(null);
+
+const PdfUploader = ({ report, setReport }) => {
   const [error, setError] = useState("");
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file && file.type === "application/pdf") {
-      setPdfFile(file);
+      setReport((prev) => ({ ...prev, file }));
       setError("");
     } else {
-      setPdfFile(null);
       setError("Please upload a valid PDF file.");
     }
   };
 
   const handleRemoveFile = () => {
-    setPdfFile(null);
+    setReport((prev) => ({ ...prev, file: null }));
     setError("");
   };
 
   return (
-    <Box sx={{ marginTop: "20px", marginX: "8px", width: "100%" }}>
-      {!pdfFile ? (
+    <Box sx={{ width: "100%" }}>
+      {!report.file ? (
         <Button
           variant="contained"
           component="label"
@@ -40,14 +38,25 @@ const PdfUploader = () => {
             },
           }}
         >
-          Add PDF
-          <input type="file" accept="application/pdf" hidden onChange={handleFileChange} />
-          
+          Upload PDF
+          <input
+            type="file"
+            accept="application/pdf"
+            hidden
+            onChange={handleFileChange}
+          />
         </Button>
       ) : (
-        <Box sx={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "space-between" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            justifyContent: "space-between",
+          }}
+        >
           <Typography sx={{ fontSize: "12px", fontWeight: "bold", color: "black" }}>
-            <strong>Selected File:</strong> {pdfFile.name}
+            <strong>Selected File:</strong> {report.file.name}
           </Typography>
           <Button
             variant="outlined"
@@ -71,7 +80,9 @@ const PdfUploader = () => {
         </Box>
       )}
       {error && (
-        <Typography sx={{ color: "#f44336", marginTop: "10px", fontSize: "14px" }}>
+        <Typography
+          sx={{ color: "#f44336", marginTop: "10px", fontSize: "14px" }}
+        >
           {error}
         </Typography>
       )}

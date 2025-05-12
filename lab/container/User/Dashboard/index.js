@@ -1,16 +1,25 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import PageHead from "../../../components/PageHead";
 import Card from "@/components/Card";
 import { FileCopy, LocalHospital, MedicalServices, Home } from "@mui/icons-material";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Dashboard = () => {
   const router = useRouter();
   const { labId } = router.query;
+  
+  const {setCurrentLab}=useAuth()
+ useEffect(() => {
+  if (labId) {
+    setCurrentLab(labId);
+  }
+}, [labId]);
 
+  
   const [labData, setLabData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -49,8 +58,10 @@ const Dashboard = () => {
     async function fetchLabById() {
         const res = await fetch("/api/user/allLabs");
         const data = await res.json();
-        const found = data.admins.find((lab) => 
-          lab._id.toString() === labId.toString());
+        const found = data.admins.find(
+  (lab) => labId && lab._id.toString() === labId.toString()
+);
+        
         setLabData(found)
         setLoading(false);
   }
