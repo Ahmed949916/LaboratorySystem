@@ -12,7 +12,7 @@ const AdminDashboard = () => {
   const router = useRouter();
 
   const handleCreateUser = () => {
-    router.push("/admin/servie-offered");
+    router.push("/admin/service-offered");
   };
 
   const handleUploadReports = () => {
