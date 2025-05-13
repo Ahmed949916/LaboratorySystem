@@ -43,21 +43,21 @@ const services=[{
   onClick:handleUploadReports,
   icon:FileUpload
 },
-{
+// {
  
-  name:"See Patient Record",
-  description:"View Patient's Complete Record",
-  // buttonText:"View",
-  onClick:handleUploadReports,
-},
-{
+//   name:"See Patient Record",
+//   description:"View Patient's Complete Record",
+//   // buttonText:"View",
+//   onClick:handleUploadReports,
+// },
+// {
  
-  name:"Manage Home Sampling",
-  description:"View Home Sampling Requests",
-  buttonText:"View",
-  onClick:handleHomeSampling,
-  icon:HomeFilled
-}
+//   name:"Manage Home Sampling",
+//   description:"View Home Sampling Requests",
+//   buttonText:"View",
+//   onClick:handleHomeSampling,
+//   icon:HomeFilled
+// }
 ]
   return (
     <>

@@ -1,13 +1,13 @@
 "use client";
 
 import React, { use, useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import PageHead from "../../../components/PageHead";
 import Card from "@/components/Card";
-import { FileCopy, LocalHospital, MedicalServices, Home } from "@mui/icons-material";
+import { FileCopy, LocalHospital, MedicalServices, Home, LocationOn } from "@mui/icons-material";
 import { useAuth } from "@/contexts/AuthContext";
-
+ 
 const Dashboard = () => {
   const router = useRouter();
   const { labId } = router.query;
@@ -32,27 +32,27 @@ const Dashboard = () => {
       onClick: () => router.push("/user/reports"),
       icon: FileCopy,
     },
+    // {
+    //   name: "Book a Test",
+    //   description: "Schedule laboratory tests.",
+    //   buttonText: "Book Now",
+    //   onClick: () => router.push("/user/book-test"),
+    //   icon: MedicalServices,
+    // },
     {
-      name: "Book a Test",
-      description: "Schedule laboratory tests.",
-      buttonText: "Book Now",
-      onClick: () => router.push("/user/book-test"),
-      icon: MedicalServices,
-    },
-    {
-      name: "Request Home Sampling",
-      description: "Request lab sample collection at your home.",
-      buttonText: "Request",
-      onClick: () => router.push("/user/home-sampling"),
+      name: "View Offered Tests",
+      description: "Explore the tests available at this lab.",
+      buttonText: "View Tests",
+      onClick: () => router.push("/user/test-offered"),
       icon: Home,
     },
-    {
-      name: "Medical History",
-      description: "View your complete medical history for this lab.",
-      buttonText: "View",
-      onClick: () => router.push("/user/profile"),
-      icon: LocalHospital,
-    },
+    // {
+    //   name: "Medical History",
+    //   description: "View your complete medical history for this lab.",
+    //   buttonText: "View",
+    //   onClick: () => router.push("/user/profile"),
+    //   icon: LocalHospital,
+    // },
   ];
 
   useEffect(() => {
@@ -71,7 +71,14 @@ const Dashboard = () => {
   }, [labId]);
 
   if (loading || !labData) {
-    return <Typography p={4}>Loading lab data...</Typography>;
+    return    <Box
+      sx={{ height: '90vh' }}
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <CircularProgress />
+    </Box>
   }
 
   return (
@@ -80,6 +87,16 @@ const Dashboard = () => {
         <Typography variant="subtitle2" color="#F5EFE7">
           Your health is our priority
         </Typography>
+ <Box sx={{display:"flex" ,alignItems:"space-between"}}>
+
+<Typography variant="subtitle2" color="#F5EFE7"  >
+  Contact: {labData.phone} — {labData.email}  <LocationOn sx={{fontSize:"14px"}} /> {labData.city}
+</Typography>
+<Box>
+ 
+</Box>
+ </Box>
+ 
       </PageHead>
 
       <Box
@@ -102,19 +119,13 @@ const Dashboard = () => {
             gap: 3,
           }}
         >
-          <Typography variant="h4" color="#213555" fontWeight={600}>
-            User Dashboard
-          </Typography>
+<Typography variant="h4" color="#213555" fontWeight={600}>
+  User Dashboard
+</Typography>
 
-          <Typography variant="body1" color="#4F4F4F" fontWeight={600}>
-            Lab: {labData.name} ({labData.city})
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Contact: {labData.phone} — {labData.email}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Address: {labData.address}
-          </Typography>
+ 
+
+
 
           <Box
             sx={{

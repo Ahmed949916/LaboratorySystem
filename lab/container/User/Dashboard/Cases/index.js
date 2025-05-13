@@ -18,6 +18,7 @@ import PageHead from "@/components/PageHead";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/router";
 import axios from "axios";
+import CustomButton from "@/components/CustomButton";
 
 const formatDate = (dateString) => {
   if (!dateString) return "No date";
@@ -82,14 +83,12 @@ const Cases = () => {
   }
 
   return (
-    <Box sx={{ padding: 3 }}>
-      <PageHead title={`${label ? label.charAt(0).toUpperCase() + label.slice(1) : ""} Reports`} />
+    <Box sx={{   }}>
+      <PageHead bg="#20A0D8" onBack={()=>{router.push("/user/reports")}} text={`${label ? label.charAt(0).toUpperCase() + label.slice(1) : ""} Reports`} />
 
-      <Typography variant="h4" gutterBottom>
-        {label ? `${label.charAt(0).toUpperCase() + label.slice(1)} Reports` : "Reports"}
-      </Typography>
+      
 
-      <Divider sx={{ mb: 3 }} />
+   
 
       {loading ? (
         <Box display="flex" justifyContent="center" my={4}>
@@ -100,50 +99,45 @@ const Cases = () => {
       ) : reports.length === 0 ? (
         <Alert severity="info">No reports found.</Alert>
       ) : (
-        <Card elevation={3} sx={{ mb: 4 }}>
-          <CardHeader
-            title="All Reports"
-            subheader={`Total reports: ${reports.length}`}
-          />
-          <Divider />
+        <Box  sx={{p:4, mb: 4 }}>
+       
+          <Typography variant="h4"   > {`Total reports: ${reports.length}`}</Typography>
+        
           <CardContent>
             <List>
               {reports.map((report, index) => (
-                <Paper key={report._id || index} elevation={1} sx={{ mb: 2, p: 2 }}>
+                <Paper key={report._id || index} elevation={1} sx={{ mb: 2, p: 2,bgcolor:"#F5EFE7" }}>
                   <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
                     <Typography variant="h6">
                       {report.testName || report.name || `Report ${index + 1}`}
                     </Typography>
 
-                    <Button
-                    variant="outlined"
-                    color="error"
-                    startIcon={<PictureAsPdfIcon />}
+                    <CustomButton
                     onClick={() => handlePdfClick(report.pdfBase64)}
                     disabled={!report.pdfBase64}
                     >
                     View PDF
-                    </Button>
+                    </CustomButton>
                   </Box>
 
-                  <Divider sx={{ my: 1 }} />
+              
 
                   <Box display="grid" gridTemplateColumns="1fr 1fr" gap={2}>
                     <Box>
-                      <Typography variant="body2" color="text.secondary">Date</Typography>
+                      <Typography variant="body2"  >Date</Typography>
                       <Typography variant="body1">{formatDate(report.createdAt)}</Typography>
                     </Box>
 
                     {report.caseId && (
                       <Box>
-                        <Typography variant="body2" color="text.secondary">Case ID</Typography>
+                        <Typography variant="body2"  >Case ID</Typography>
                         <Typography variant="body1">{report.caseId}</Typography>
                       </Box>
                     )}
 
                     {report.status && (
                       <Box>
-                        <Typography variant="body2" color="text.secondary">Status</Typography>
+                        <Typography variant="body2"  >Status</Typography>
                         <Typography variant="body1">{report.status}</Typography>
                       </Box>
                     )}
@@ -166,7 +160,7 @@ const Cases = () => {
               ))}
             </List>
           </CardContent>
-        </Card>
+        </Box>
       )}
     </Box>
   );
