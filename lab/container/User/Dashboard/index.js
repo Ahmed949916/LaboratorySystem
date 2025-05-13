@@ -15,6 +15,7 @@ const Dashboard = () => {
   const {setCurrentLab}=useAuth()
  useEffect(() => {
   if (labId) {
+    console.log("labId", labId);
     setCurrentLab(labId);
   }
 }, [labId]);
