@@ -6,7 +6,7 @@ import { signOut } from "next-auth/react"
 const PageHead = ({ text, onBack, onLogout, children, bg = "#213555" }) => {
   return (
     <Box sx={{ background: bg, p: 2 }}>
-      {/* Header Row */}
+     
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           {onBack && (

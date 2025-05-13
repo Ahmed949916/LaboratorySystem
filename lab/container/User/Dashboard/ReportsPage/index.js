@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Box, List, ListItemButton, ListItemText } from "@mui/material";
+import { Box, CircularProgress, List, ListItemButton, ListItemText } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import PageHead from "../../../../components/PageHead";
 import { useRouter } from "next/navigation";
@@ -49,16 +49,27 @@ console.log("Fetched relations:", fetchedRelations);
   }
 }, [user]);
 
-  if (loading) return null;
-  if (!isUser) {
-    router.push("/");
-    return null;
-  }
-
+ 
+  
   return (
     <Box sx={{ width: "100%", minHeight: "100vh", bgcolor: "#f5f5f5" }}>
-      <PageHead text="Reports" bg="#20A0D8" onBack={() => router.push("/user/profile")} />
-      <Box sx={{ flex: 1, overflow: "auto", padding: "8px" }}>
+      <PageHead text="Reports" bg="#20A0D8" onBack={() => router.push("/user/")} />
+
+           {loading ? (
+                <Box
+                     sx={{ height: '70vh' }}
+                     display="flex"
+                     justifyContent="center"
+                     alignItems="center"
+                   >
+                     <CircularProgress  />
+                   </Box>
+              ) : (
+
+   
+                <Box sx={{ flex: 1, overflow: "auto", padding: "8px" }}>
+
+
         <List sx={{ display: "flex", gap: "8px", flexDirection: "column" }}>
           {relations.map((rel, index) => (
             
@@ -82,6 +93,7 @@ console.log("Fetched relations:", fetchedRelations);
           ))}
         </List>
       </Box>
+         )}
     </Box>
   );
 };
