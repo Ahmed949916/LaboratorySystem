@@ -3,9 +3,11 @@ import { Typography, Box, Grid, CircularProgress } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import LabCard from '../../../components/LabCard';
 import PageHead from '../../../components/PageHead';
+import { useAuth } from '@/contexts/AuthContext';
 
 const AllLabs = () => {
   const router = useRouter();
+  const {isUser}=useAuth()
   const [labs, setLabs] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -24,6 +26,10 @@ const AllLabs = () => {
   const handleLabClick = (labId) => {
     router.push(`/user/${labId}`);
   };
+
+
+ 
+
 
   return (
     <Box sx={{ minHeight: "100vh" , background: "#F5EFE7" }}>

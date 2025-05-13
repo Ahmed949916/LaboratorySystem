@@ -1,7 +1,9 @@
+ 
 import { MongoClient } from "mongodb";
 
 export default async function handler(req, res) {
-  
+
+
     if (req.method === "POST") {
       try {
         console.log(process.env.MONGO_URI);

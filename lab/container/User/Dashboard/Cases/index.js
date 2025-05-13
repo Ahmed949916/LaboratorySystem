@@ -42,8 +42,7 @@ const Cases = () => {
 
   useEffect(() => {
     async function fetchReports() {
-      if (!currentLab || !userId || !router.isReady) return;
-
+       
       setLoading(true);
       setError(null);
 
@@ -91,9 +90,14 @@ const Cases = () => {
    
 
       {loading ? (
-        <Box display="flex" justifyContent="center" my={4}>
-          <CircularProgress />
-        </Box>
+      <Box
+               sx={{ height: '70vh' }}
+               display="flex"
+               justifyContent="center"
+               alignItems="center"
+             >
+               <CircularProgress  />
+             </Box>
       ) : error ? (
         <Alert severity="error">{error}</Alert>
       ) : reports.length === 0 ? (
@@ -106,7 +110,7 @@ const Cases = () => {
           <CardContent>
             <List>
               {reports.map((report, index) => (
-                <Paper key={report._id || index} elevation={1} sx={{ mb: 2, p: 2,bgcolor:"#F5EFE7" }}>
+                <Paper key={report._id || index}  sx={{ mb: 2, p: 2,  }}>
                   <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
                     <Typography variant="h6">
                       {report.testName || report.name || `Report ${index + 1}`}

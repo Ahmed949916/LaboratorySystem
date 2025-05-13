@@ -1,6 +1,8 @@
+ 
 import db from "../../../lib/mongodb";
 
 export default async function handler(req, res) {
+ 
   const dbo = await db();
 
   if (req.method === "GET") {
