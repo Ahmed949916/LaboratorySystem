@@ -82,7 +82,8 @@ useEffect(() => {
   setLoading(false)
 }
 if(currentLab){
-  getData()
+  // getData()
+  console.log("currentLab333", currentLab);
 }
 },[currentLab])
 

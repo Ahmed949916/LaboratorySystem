@@ -7,7 +7,9 @@ export const AuthProvider = ({ children }) => {
   const { data: session, status } = useSession();
 
   const [currentLab, setCurrentLab] = useState(null); 
-  const [auth, setAuth] = useState({
+  if(currentLab){
+  console.log("currentLab", currentLab);
+}const [auth, setAuth] = useState({
     loading: true,
     user: null,
     isAdmin: false,
