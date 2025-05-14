@@ -14,6 +14,7 @@ const Login = () => {
     phone: "",
     password: "",
   });
+  const [loading,setLoading]=useState(false)
   const [error, setError] = useState(null);
   const router = useRouter();
 
@@ -28,6 +29,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setLoading(true)
  
     const result = await signIn("credentials", {
       redirect: false,
@@ -35,10 +37,14 @@ const Login = () => {
       password: formData.password,
     });
 
+
     if (result?.error) {
+      setLoading(false)
+ 
       setError("Invalid phone or password");
     } else {
-     
+        setLoading(false)
+ 
      
       router.push("/user");  
     }
@@ -111,7 +117,7 @@ const Login = () => {
         </Box>
 
         <Box sx={{ display: "flex", justifyContent: "flex-end", }}>
-          <CustomButton sx={{p:"4px 22px"}}variant="tertiary" type="submit">
+          <CustomButton loading={loading} sx={{p:"4px 22px"}}variant="tertiary" type="submit">
             <ArrowForward/>
           </CustomButton>
         </Box>

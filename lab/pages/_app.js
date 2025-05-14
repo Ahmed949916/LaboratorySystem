@@ -15,7 +15,6 @@ function MyApp({ Component, pageProps }) {
     <>
     <SessionProvider session={pageProps.session}>
       <AuthProvider>
-
     <ThemeProvider theme={theme}> 
       <CssBaseline />
       <Box
