@@ -3,7 +3,7 @@
 import React from "react";
 import { Box, Typography, Paper } from "@mui/material";
 import { useRouter } from "next/navigation";
-import PageHead from " ../../../components/PageHead";
+import PageHead from "../../../components/PageHead";
  
 import Card from "@/components/Card";
 import { FileUpload, HomeFilled, MedicalServices } from "@mui/icons-material";
@@ -12,7 +12,7 @@ const AdminDashboard = () => {
   const router = useRouter();
 
   const handleCreateUser = () => {
-    router.push("/admin/servie-offered");
+    router.push("/admin/service-offered");
   };
 
   const handleUploadReports = () => {
@@ -43,21 +43,21 @@ const services=[{
   onClick:handleUploadReports,
   icon:FileUpload
 },
-{
+// {
  
-  name:"See Patient Record",
-  description:"View Patient's Complete Record",
-  // buttonText:"View",
-  onClick:handleUploadReports,
-},
-{
+//   name:"See Patient Record",
+//   description:"View Patient's Complete Record",
+//   // buttonText:"View",
+//   onClick:handleUploadReports,
+// },
+// {
  
-  name:"Manage Home Sampling",
-  description:"View Home Sampling Requests",
-  buttonText:"View",
-  onClick:handleHomeSampling,
-  icon:HomeFilled
-}
+//   name:"Manage Home Sampling",
+//   description:"View Home Sampling Requests",
+//   buttonText:"View",
+//   onClick:handleHomeSampling,
+//   icon:HomeFilled
+// }
 ]
   return (
     <>

@@ -1,94 +1,73 @@
 import React, { useEffect, useState } from 'react';
-import { 
-  Typography, 
-  Box, 
-  TextField
-} from '@mui/material';
+import { Typography, Box, Grid, CircularProgress } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import LabCard from "../../../components/LabCard"
- 
+import LabCard from '../../../components/LabCard';
 import PageHead from '../../../components/PageHead';
-
-const labs = [
-  {
-    id: 1,
-    name: "IRTAQA LAB",
-    address: "123 Main St, Lahore, Pakistan",
-    phone: "123-456-7890",
-    email: "irtaqalab@gmai.com",
-    city: "Lahore",
-  
-  },
-  {
-    id: 2,
-    name: "XYZ Lab",
-    address: "456 Elm St, Karachi, Pakistan",
-    phone: "987-654-3210",
-    email: "xyz@gmail.com",
-    city: "Karachi",
- 
-  },
-];
+import { useAuth } from '@/contexts/AuthContext';
 
 const AllLabs = () => {
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const {isUser}=useAuth()
+  const [labs, setLabs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const filteredLabs = labs.filter(lab => 
-    lab.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    lab.city.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    async function fetchLabs() {
+        const res = await fetch('/api/user/allLabs');
+        const data = await res.json();
+        setLabs(data.admins);
+        console.log("ALL LABS")
+        setLoading(false)
+    }
+
+    fetchLabs();
+  }, []);
 
   const handleLabClick = (labId) => {
     router.push(`/user/${labId}`);
   };
 
-  return (
-     
-    <Box sx={{minHeight:"100vh",background:"#F5EFE7"}}>
-      <PageHead text="All Labs" bg="#20A0D8">
-         <Typography variant="subtitle2" color='#fff'>
-          Find and connect with medical laboratories in your area
-        </Typography>
-        </PageHead>
+
  
 
 
-        <Box sx={{ my: 4, px: 2 }}>
-  <TextField
-    fullWidth
-    variant="outlined"
-    placeholder="Search labs by name or city..."
-    value={searchQuery}
-    onChange={(e) => setSearchQuery(e.target.value)}
-    sx={{
-      '& .MuiOutlinedInput-root': {
-        '&.Mui-focused fieldset': {
-          borderColor: '#20A0D8',
-        },
-      },
-    }}
-  />
-</Box>
+  return (
+    <Box sx={{ minHeight: "100vh" , background: "#F5EFE7" }}>
+      <PageHead text="All Labs" bg="#20A0D8">
+        <Typography variant="subtitle2" color="#fff">
+          Find and connect with medical laboratories in your area
+        </Typography>
+      </PageHead>
 
-
-      {filteredLabs.length === 0 ? (
+      {loading ? (
+        <Box
+             sx={{ height: '70vh' }}
+             display="flex"
+             justifyContent="center"
+             alignItems="center"
+           >
+             <CircularProgress  />
+           </Box>
+      ) : labs.length === 0 ? (
         <Box sx={{ textAlign: 'center', py: 5 }}>
           <Typography variant="h6" color="text.secondary">
-            No labs found matching your search criteria
+            No labs found
           </Typography>
         </Box>
       ) : (
-
-         <Box sx={{display:"flex",flexDirection:{xs:"column",sm:"column",lg:"row"},gap:2,px:2,}}>
-          {filteredLabs.map((lab) => (
-              <LabCard lab={lab} onClick={() => handleLabClick(lab.id)} />
-          ))}
-         </Box>
+        <Box sx={{ px: 2, py: 4 }}>
+          <Box  sx={{display:"grid",gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, gap: 3}}>
+            {labs.map((lab) => (
+                <LabCard
+                  lab={lab}
+                  onClick={() => handleLabClick(lab._id)}
+                />
+              
+            ))}
+          </Box>
+        </Box>
       )}
- </Box>
-  
-
+    </Box>
   );
 };
 

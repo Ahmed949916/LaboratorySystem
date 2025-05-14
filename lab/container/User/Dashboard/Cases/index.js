@@ -1,154 +1,171 @@
 "use client";
-
-import React, { useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import {
- 
   Typography,
   Box,
   Divider,
   List,
-  ListItem,
-  ListItemText,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
+  Card,
+  CardContent,
+  CardHeader,
+  CircularProgress,
+  Alert,
+  Paper,
+  Button,
 } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PageHead from "@/components/PageHead";
-import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/router";
+import axios from "axios";
+import CustomButton from "@/components/CustomButton";
 
-const RELATIONSHIP = "Sister";
-
-const CASES = [
-  {
-    dateNum: "27",
-    dateStr: "February 2020",
-    caseId: "19403-22-02",
-    tests: [
-      { name: "Protein C", status: "Downloads", pdfUrl: "/pdfs/protein-c.pdf" },
-      { name: "Free Protein S", status: "Downloads", pdfUrl: "/pdfs/free-protein-s.pdf" },
-      { name: "Anti-Thrombin", status: "Downloads", pdfUrl: "/pdfs/anti-thrombin.pdf" },
-      { name: "Factor V Leiden Screening (Activated Protein C Resistance)", status: "Downloads", pdfUrl: "/pdfs/factor-v-leiden.pdf" },
-    ],
-  },
-  {
-    dateNum: "21",
-    dateStr: "February 2020",
-    caseId: "19402-22-02",
-    tests: [
-      { name: "Blood Sugar", status: "Downloads", pdfUrl: "/pdfs/blood-sugar.pdf" },
-      { name: "Urea", status: "Downloads", pdfUrl: "/pdfs/urea.pdf" },
-    ],
-  },
-  {
-    dateNum: "23",
-    dateStr: "February 2020",
-    caseId: "46901-22-02",
-    tests: [{ name: "Thyroid Profile", status: "Downloads", pdfUrl: "/pdfs/thyroid.pdf" }],
-  },
-  {
-    dateNum: "23",
-    dateStr: "February 2020",
-    caseId: "19401-22-02",
-    tests: [
-      { name: "CBC", status: "Downloads", pdfUrl: "/pdfs/cbc.pdf" },
-      { name: "Lipid Profile", status: "Downloads", pdfUrl: "/pdfs/lipid.pdf" },
-    ],
-  },
-];
-
-function parseCaseDate(dateNum, dateStr) {
-  const [monthName, year] = dateStr.split(" ");
-  const day = parseInt(dateNum, 10);
-  return new Date(`${monthName} ${day}, ${year}`);
-}
+const formatDate = (dateString) => {
+  if (!dateString) return "No date";
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
 
 const Cases = () => {
-  const sortedCases = useMemo(() => {
-    const copy = [...CASES];
-    copy.sort((a, b) => {
-      const dateA = parseCaseDate(a.dateNum, a.dateStr);
-      const dateB = parseCaseDate(b.dateNum, b.dateStr);
-      return dateB.getTime() - dateA.getTime();
-    });
-    return copy;
-  }, []);
+  const router = useRouter();
+  const { label } = router.query;
+  const { currentLab, user } = useAuth();
+  const userId = user?.id;
 
-  const handlePdfClick = (pdfUrl) => {
-    window.open(pdfUrl, "_blank");
-  };
-  const router=useRouter()
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchReports() {
+       
+      setLoading(true);
+      setError(null);
+
+        const { data } = await axios.get("/api/user/cases", {
+          params: {
+            labId: currentLab,
+            label: label,
+            userId: userId,
+          },
+        });
+
+        console.log("Reports received:", data);
+          setReports(data);
+        setLoading(false);
+      
+    }
+
+    fetchReports();
+  }, [currentLab, userId, label, router.isReady]);
+
+  const handlePdfClick = (pdfBase64) => {
+    if (!pdfBase64) {
+      console.error("No PDF data available");
+      return;
+    }
+    
+    const byteCharacters = atob(pdfBase64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'application/pdf' });
+    
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+  }
 
   return (
-    <Box sx={{ width: "100%", minHeight: "100vh", bgcolor: "#f5f5f5" }}>
-      <PageHead text="Cases"bg="#20A0D8" onBack={()=>{router.push("/user/reports")}} />
+    <Box sx={{   }}>
+      <PageHead bg="#20A0D8" onBack={()=>{router.push("/user/reports")}} text={`${label ? label.charAt(0).toUpperCase() + label.slice(1) : ""} Reports`} />
 
-      <Box sx={{ p: 4 }}>
-        <Typography variant="h5" sx={{ fontWeight: 600, color: "#213555", borderBottom:"2px solid #20A0D8" ,width:"fit-content" }}>
-          {RELATIONSHIP}
-        </Typography>
-      </Box>
+      
 
-      <Box sx={{ px: 2, pb: 4 }}>
-        {sortedCases.map((caseItem, index) => (
-          <Accordion
-            key={index}
-            disableGutters
-            sx={{
-              mb: 2,
-              borderLeft: "4px solid #20A0D8",
-              boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
-              backgroundColor: "#fff",
-              "&:before": { display: "none" },
-            }}
-          >
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Box sx={{ textAlign: "center", mr: 2, width: "60px" }}>
-                  <Typography variant="h6" sx={{ lineHeight: 1 }}>
-                    {caseItem.dateNum}
-                  </Typography>
-                  <Typography variant="caption">{caseItem.dateStr}</Typography>
-                </Box>
-                <Box>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                    {caseItem.caseId}
-                  </Typography>
-                </Box>
-              </Box>
-            </AccordionSummary>
+   
 
-            <AccordionDetails sx={{ p: 0 }}>
-              <Divider />
-              <List dense disablePadding>
-                {caseItem.tests.map((test, idx) => (
-                  <ListItem
-                    key={idx}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      pl: 2,
-                      pr: 2,
-                    }}
-                  >
-                    <ListItemText
-                      primary={test.name}
-                      secondary={test.status}
-                      sx={{ mr: 2 }}
-                    />
-                    <PictureAsPdfIcon
-                      sx={{ color: "#213555", cursor: "pointer" }}
-                      onClick={() => handlePdfClick(test.pdfUrl)}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            </AccordionDetails>
-          </Accordion>
-        ))}
-      </Box>
+      {loading ? (
+      <Box
+               sx={{ height: '70vh' }}
+               display="flex"
+               justifyContent="center"
+               alignItems="center"
+             >
+               <CircularProgress  />
+             </Box>
+      ) : error ? (
+        <Alert severity="error">{error}</Alert>
+      ) : reports.length === 0 ? (
+        <Alert severity="info">No reports found.</Alert>
+      ) : (
+        <Box  sx={{p:4, mb: 4 }}>
+       
+          <Typography variant="h4"   > {`Total reports: ${reports.length}`}</Typography>
+        
+          <CardContent>
+            <List>
+              {reports.map((report, index) => (
+                <Paper key={report._id || index}  sx={{ mb: 2, p: 2,  }}>
+                  <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
+                    <Typography variant="h6">
+                      {report.testName || report.name || `Report ${index + 1}`}
+                    </Typography>
+
+                    <CustomButton
+                    onClick={() => handlePdfClick(report.pdfBase64)}
+                    disabled={!report.pdfBase64}
+                    >
+                    View PDF
+                    </CustomButton>
+                  </Box>
+
+              
+
+                  <Box display="grid" gridTemplateColumns="1fr 1fr" gap={2}>
+                    <Box>
+                      <Typography variant="body2"  >Date</Typography>
+                      <Typography variant="body1">{formatDate(report.createdAt)}</Typography>
+                    </Box>
+
+                    {report.caseId && (
+                      <Box>
+                        <Typography variant="body2"  >Case ID</Typography>
+                        <Typography variant="body1">{report.caseId}</Typography>
+                      </Box>
+                    )}
+
+                    {report.status && (
+                      <Box>
+                        <Typography variant="body2"  >Status</Typography>
+                        <Typography variant="body1">{report.status}</Typography>
+                      </Box>
+                    )}
+
+                    {report.labId && (
+                      <Box>
+                        <Typography variant="body2" color="text.secondary">Lab ID</Typography>
+                        <Typography variant="body1">{report.labId}</Typography>
+                      </Box>
+                    )}
+                  </Box>
+
+                  {report.description && (
+                    <Box mt={2}>
+                      <Typography variant="body2" color="text.secondary">Description</Typography>
+                      <Typography variant="body1">{report.description}</Typography>
+                    </Box>
+                  )}
+                </Paper>
+              ))}
+            </List>
+          </CardContent>
+        </Box>
+      )}
     </Box>
   );
 };

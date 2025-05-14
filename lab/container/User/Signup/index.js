@@ -46,6 +46,24 @@ const Signup = () => {
     //   );
     //   setError(error.response?.data?.error || "An unexpected error occurred.");
     // }
+    fetch('/api/user/signup',{
+      method:'POST',
+      body:JSON.stringify({user:formData}),  // Change formData to admin
+      headers:{
+        'Content-Type':'application/json'
+      }
+    }).then(res=>res.json())
+      .then(data => {
+        console.log(data.message);  // Changed data.comment to data.message to match your API response
+        if (data.message) {
+          router.push('/user/login');  // Redirect to main page after successful signup
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        setError("Login failed. Please try again.");
+      });
+
   };
 
   return (
@@ -100,7 +118,7 @@ const Signup = () => {
   label="Name"
   name="name"
   type="text"
-  placeholder="Enter Lab Name"
+  placeholder="Enter Name"
   inputVal={formData.name}
   onInputChange={(val) => setFormData((prev) => ({ ...prev, name: val }))}
 />

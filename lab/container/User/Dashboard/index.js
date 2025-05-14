@@ -1,81 +1,85 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import React, { use, useEffect, useState } from "react";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import PageHead from "../../../components/PageHead";
 import Card from "@/components/Card";
-import { FileCopy, LocalHospital, MedicalServices, Home } from "@mui/icons-material";
-
+import { FileCopy, LocalHospital, MedicalServices, Home, LocationOn } from "@mui/icons-material";
+import { useAuth } from "@/contexts/AuthContext";
+ 
 const Dashboard = () => {
   const router = useRouter();
   const { labId } = router.query;
- 
+  
+  const {setCurrentLab}=useAuth()
+ useEffect(() => {
+  if (labId) {
+    console.log("labId", labId);
+    setCurrentLab(labId);
+  }
+}, [labId]);
+
+  
   const [labData, setLabData] = useState(null);
-
-  const labs = [
-    {
-      id: 1,
-      name: "IRTAQA LAB",
-      address: "123 Main St, Lahore, Pakistan",
-      phone: "123-456-7890",
-      email: "irtaqalab@gmai.com",
-      city: "Lahore",
-    },
-    {
-      id: 2,
-      name: "XYZ Lab",
-      address: "456 Elm St, Karachi, Pakistan",
-      phone: "987-654-3210",
-      email: "xyz@gmail.com",
-      city: "Karachi",
-    },
-  ];
-
-  useEffect(() => {
-    if (labId) {
-      const matchedLab = labs.find((lab) => String(lab.id) === String(labId));
-      if (matchedLab) setLabData(matchedLab);
-    }
-  }, [labId]);
-
-  const handleViewReports = () => router.push("/user/reports");
-  const handleBookTest = () => router.push("/user/book-test");
-  const handleRequestHomeSampling = () => router.push("/user/home-sampling");
-  const handleViewProfile = () => router.push("/user/profile");
+  const [loading, setLoading] = useState(true);
 
   const services = [
     {
       name: "View Reports",
       description: "Access your medical or test reports.",
       buttonText: "Go to Reports",
-      onClick: handleViewReports,
+      onClick: () => router.push("/user/reports"),
       icon: FileCopy,
     },
+    // {
+    //   name: "Book a Test",
+    //   description: "Schedule laboratory tests.",
+    //   buttonText: "Book Now",
+    //   onClick: () => router.push("/user/book-test"),
+    //   icon: MedicalServices,
+    // },
     {
-      name: "Book a Test",
-      description: "Schedule laboratory tests.",
-      buttonText: "Book Now",
-      onClick: handleBookTest,
-      icon: MedicalServices,
-    },
-    {
-      name: "Request Home Sampling",
-      description: "Request lab sample collection at your home.",
-      buttonText: "Request",
-      onClick: handleRequestHomeSampling,
+      name: "View Offered Tests",
+      description: "Explore the tests available at this lab.",
+      buttonText: "View Tests",
+      onClick: () => router.push("/user/test-offered"),
       icon: Home,
     },
-    {
-      name: "Medical History",
-      description: "View your complete medical history for this lab.",
-      buttonText: "View",
-      onClick: handleViewProfile,
-      icon: LocalHospital,
-    },
+    // {
+    //   name: "Medical History",
+    //   description: "View your complete medical history for this lab.",
+    //   buttonText: "View",
+    //   onClick: () => router.push("/user/profile"),
+    //   icon: LocalHospital,
+    // },
   ];
 
-  if (!labData) return <Typography p={4}>Loading lab data...</Typography>;
+  useEffect(() => {
+    async function fetchLabById() {
+        const res = await fetch("/api/user/allLabs");
+        const data = await res.json();
+        const found = data.admins.find(
+  (lab) => labId && lab._id.toString() === labId.toString()
+);
+        
+        setLabData(found)
+        setLoading(false);
+  }
+
+    fetchLabById();
+  }, [labId]);
+
+  if (loading || !labData) {
+    return    <Box
+      sx={{ height: '90vh' }}
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <CircularProgress />
+    </Box>
+  }
 
   return (
     <>
@@ -83,6 +87,16 @@ const Dashboard = () => {
         <Typography variant="subtitle2" color="#F5EFE7">
           Your health is our priority
         </Typography>
+ <Box sx={{display:"flex" ,alignItems:"space-between"}}>
+
+<Typography variant="subtitle2" color="#F5EFE7"  >
+  Contact: {labData.phone} — {labData.email}  <LocationOn sx={{fontSize:"14px"}} /> {labData.city}
+</Typography>
+<Box>
+ 
+</Box>
+ </Box>
+ 
       </PageHead>
 
       <Box
@@ -105,12 +119,13 @@ const Dashboard = () => {
             gap: 3,
           }}
         >
-          <Typography variant="h4" color="#213555" fontWeight={600}>
-            User Dashboard
-          </Typography>
-          <Typography variant="body1" color="#4F4F4F" fontWeight={600}>
-            Welcome back, Ahmad!
-          </Typography>
+<Typography variant="h4" color="#213555" fontWeight={600}>
+  User Dashboard
+</Typography>
+
+ 
+
+
 
           <Box
             sx={{

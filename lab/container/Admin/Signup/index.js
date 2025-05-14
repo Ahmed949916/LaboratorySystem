@@ -29,7 +29,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    console.log(formData)
+    
 
     // try {
     //   const response = await axios.post(
@@ -48,6 +48,23 @@ const Signup = () => {
     //   );
     //   setError(error.response?.data?.error || "An unexpected error occurred.");
     // }
+    fetch('/api/admin/signup',{
+      method:'POST',
+      body:JSON.stringify({admin:formData}),  // Change formData to admin
+      headers:{
+        'Content-Type':'application/json'
+      }
+    }).then(res=>res.json())
+      .then(data => {
+        console.log(data.message);  // Changed data.comment to data.message to match your API response
+        if (data.message) {
+          router.push('/admin/login');  // Redirect to login page after successful signup
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        setError("Registration failed. Please try again.");
+      });
   };
 
   return (

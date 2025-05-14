@@ -2,161 +2,194 @@
 
 import React, { useRef, useState } from "react";
 import axios from "axios";
-import { Box, Typography, IconButton, Divider } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Add, CloudUpload, HdrPlus, PlusOne } from "@mui/icons-material";
 
 import CustomButton from "../../../components/CustomButton";
 import CustomInput from "../../../components/CustomInput";
 import CustomSelect from "../../../components/CustomSelect";
 import PageHead from "../../../components/PageHead";
 import PdfUploader from "../../../components/PdfUploader";
-import { ArrowForward, CloudUpload } from "@mui/icons-material";
 
 const UploadReports = () => {
   const router = useRouter();
+  const phone = useRef(null);
+  const [newRelation, setNewRelation] = useState({ label: "", name: "" });
+  const [report, setReport] = useState({
+    testName: "",
+    relationship: "self",
+    isOther: false,
+    otherRelationship: "",
+    file: null,
+  });
  
-  const [userData, setUserData] = useState(null);
-  const phone=useRef(null)
-
-  const [reports, setReports] = useState([
-    {
-      testName: "",
-      relationship: "Self",
-      isOther: false,
-      otherRelationship: "",
-      file: null,
-    },
-  ]);
-
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [relationships, setRelationships] = useState([]);
+  const [creatingRelation, setCreatingRelation] = useState(false);
+  const [userData, setUserData] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
-  const defaultRelationships = ["Self", "Father", "Mother", "Spouse", "Child"];
-
-  const handleAddAnother = () => {
-    setReports((prev) => [
-      ...prev,
-      {
-        testName: "",
-        relationship: "Self",
-        isOther: false,
-        otherRelationship: "",
-        file: null,
-      },
-    ]);
-  };
-
-  const handleRemoveReport = (index) => {
-    if (reports.length > 1) {
-      setReports((prev) => prev.filter((_, i) => i !== index));
+ 
+  const handleCreateRelation = async () => {
+    if (!newRelation.label || !newRelation.name) {
+      setError("Please fill both relationship and name.");
+      return;
     }
-  };
-
-  const handleReportChange = (index, field, value) => {
-    setReports((prev) =>
-      prev.map((report, i) =>
-        i === index ? { ...report, [field]: value } : report
-      )
-    );
-  };
-
-  const handleRelationshipChange = (index, event) => {
-    const selectedValue = event.target.value;
-    if (selectedValue === "Other") {
-      setReports((prev) =>
-        prev.map((report, i) =>
-          i === index
-            ? { ...report, relationship: "", isOther: true, otherRelationship: "" }
-            : report
-        )
-      );
-    } else {
-      setReports((prev) =>
-        prev.map((report, i) =>
-          i === index
-            ? { ...report, relationship: selectedValue, isOther: false, otherRelationship: "" }
-            : report
-        )
-      );
-    }
-  };
-
-  const handleFileChange = (index, e) => {
-    if (!e.target.files) return;
-    const file = e.target.files[0];
-    setReports((prev) =>
-      prev.map((report, i) =>
-        i === index ? { ...report, file } : report
-      )
-    );
-  };
-
-  const handleBack = () => {
-    router.push("/admin/");
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    setSuccess(null);
-
-    if (reports.some((r) => !r.file)) {
-      setError("Please select a file for all test reports.");
+    if (!phone.current?.value) {
+      setError("Please fetch user data first.");
       return;
     }
 
     try {
-      const formData = new FormData();
-      formData.append("phone", phone);
-
-      reports.forEach((report, i) => {
-        const finalRelationship = report.isOther ? report.otherRelationship : report.relationship;
-        formData.append(`reports[${i}][testName]`, report.testName);
-        formData.append(`reports[${i}][relationship]`, finalRelationship);
-
-        if (report.file) {
-          formData.append(`reports[${i}][file]`, report.file);
-        }
+      setCreatingRelation(true);
+      await axios.post("/api/admin/relations", {
+        phone: phone.current.value,
+        label: newRelation.label,
+        name: newRelation.name,
       });
 
-      // await axios.post(
-      //   `${process.env.NEXT_PUBLIC_API_URL}/admin/reports-bulk`,
-      //   formData,
-      //   {
-      //     headers: { "Content-Type": "multipart/form-data" },
-      //   }
-      // );
+      
+      await fetchRelationships();
 
-      setSuccess("All reports uploaded successfully!");
-      setPhone("");
-      setReports([
-        {
-          testName: "",
-          relationship: "Self",
-          isOther: false,
-          otherRelationship: "",
-          file: null,
-        },
-      ]);
+       
+      setReport((prev) => ({
+        ...prev,
+        relationship: newRelation.label,
+        isOther: false,
+        otherRelationship: "",
+     
+      }));
+  
+      setNewRelation({ label: "", name: "" });
     } catch (err) {
       console.error(err);
+     
+    } finally {
+      setCreatingRelation(false);
+    }
+  };
+
+   
+  const handleReportChange = (field, value) => {
+    setReport((prev) => ({ ...prev, [field]: value }));
+  };
+
+  
+  const handleRelationshipChange = (e) => {
+    const selected = e.target.value;
+    if (selected === "Other") {
+      setReport((prev) => ({
+        ...prev,
+        isOther: true,
+        otherRelationship: "",
+        relationship: "",
+      }));
+    } else {
+      setReport((prev) => ({
+        ...prev,
+        isOther: false,
+        otherRelationship: "",
+        relationship: selected,
+      }));
+    }
+  };
+
+ 
+ 
+  
+  const fetchRelationships = async () => {
+    const phoneNumber = phone.current?.value;
+    
+    if (!phoneNumber) {
+      setError("Please enter a phone number.");
+     setUploading(false)
+      return;
+    }
+   setCreatingRelation(true)
+    try {
+      const { data } = await axios.get(
+        `/api/admin/relations?phone=${phoneNumber}`
+      );
+      if(data.error){
+        setError(data.error);
+        setUserData(false);
+        setCreatingRelation(false)
+        return;
+      }
+      
+      setRelationships(data?.relations);
+      setUserData(data.user._id);
+ 
+      setCreatingRelation(false)
+      setError(null);
+    } catch (err) {
+      console.error(err);
+      setError("Error fetching relationships.");
+    }
+  };
+
+ 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setSuccess(null);
+setUploading(true)
+
+    try {
+          if (!report.file) {
+      setError("Please select a file for the test report.");
+      setUploading(false)
+      return;
+          }
+      if(!report.testName){
+        setError("Please enter a test name.");
+        setUploading(false)
+        return;
+      }
+    
+    if (report.isOther){
+  setError("Please select a relationship.");
+ setUploading(false)
+  return;
+    }
+      const formData = new FormData();
+      formData.append("phone", phone.current.value);
+
+      const finalRel =  report.relationship;
+
+      formData.append("testName", report.testName);
+      formData.append("label", finalRel);
+      formData.append("file", report.file);
+      formData.append("user_id", userData);
+      const {data}=await axios.post("/api/admin/uploadReport", formData);
+    
+ 
+      setSuccess("Report uploaded successfully!");
+    
+      setReport({
+        testName: "",
+        relationship: "self",
+        isOther: false,
+        otherRelationship: "",
+     
+        file: null,
+      });
+       setUploading(false)
+    } catch (err) {
+      console.error(err);
+      setUploading(false)
       setError(err.response?.data?.message || "An error occurred");
     }
   };
-  function fetchUserData(){
-    console.log(phone)
-    if (!phone) {
-      return;}
-      console.log(phone.current?.value)
-    //api call to fetch user data(relationships)
-    setUserData(true)
-  }
+
+  const handleBack = () => router.push("/admin/");
 
   return (
     <>
-      <PageHead text="Upload Reports" onBack={()=>{router.push("/admin")}}/>
-     
+      <PageHead text="Upload Reports" onBack={handleBack} />
+
       <Box
         sx={{
           background: "#F5EFE7",
@@ -169,131 +202,158 @@ const UploadReports = () => {
           py: 6,
         }}
       >
-         <Box
-        sx={{
-          background: "#FAF7F3",
-          width:"90%",
-          maxWidth: 600,
-          borderRadius: 3,
-          mb: 3,
-          display: "flex",
-          gap:2,
-                    flexDirection: "column",
-          p: { xs: 3, sm: 4 },
-        }}
-      >
-      <CustomInput
-            label="User Phone Number"
-            type={"tel"}
-            name="phone"
-            ref={phone}
-            placeholder="Enter User Phone Number "
-            // value={phone}
-           
-          />
-
-
-           <CustomButton variant="tertiary"   onClick={ fetchUserData}>
-           Fetch User Data
-          </CustomButton>
-          </Box>
-
-       {userData&&(
- <Box
- component="form"
- onSubmit={handleSubmit}
- sx={{
-   width: "90%",
-   maxWidth: 600,
-   bgcolor: "#FAF7F3",
-   borderRadius: 3,
-   
-   display: "flex",
-   flexDirection: "column",
-   gap: 3.5,
-   p: { xs: 3, sm: 4 },
- }}
->
-
-
-
- <Divider sx={{  borderColor: "#213555" }} />
-
- {reports.map((report, idx) => (
-   <Box
-     key={idx}
-     sx={{
-
-       p: 2,
-       display: "flex",
-       flexDirection: "column",
-       gap: 2,
-       position: "relative",
-     }}
-   >
-     <Typography variant="h6" sx={{ fontWeight: 600, color: "#00000" }}>
-       Test Report #{idx + 1}
-     </Typography>
-
-     <CustomInput
-       label="Test Name"
-     
-       placeholder="e.g., CBC, LFT, Ultrasound"
-       value={report.testName}
-       onChange={(e) => handleReportChange(idx, "testName", e.target.value)}
-     />
-
-     <CustomSelect
-       label="Relationship"
-       options={[
-         ...defaultRelationships.map((rel) => ({ label: rel, value: rel })),
-         { label: "Add New Relation", value: "Other" },
-       ]}
-       value={report.isOther ? "Other" : report.relationship}
-       onChange={(e) => handleRelationshipChange(idx, e)}
-     />
-
-     {report.isOther && (
-       <CustomInput
-         type="string"
-         label="Enter Relationship"
-         placeholder="e.g., Uncle, Aunt, Friend"
-         value={report.otherRelationship}
-         onChange={(e) => handleReportChange(idx, "otherRelationship", e.target.value)}
-       />
-     )}
-
-     {reports.length > 1 && (
-       <IconButton
-         onClick={() => handleRemoveReport(idx)}
-         sx={{ position: "absolute", top: 8, right: 8, color: "rgba(250, 101, 101, 0.93)" }}
-       >
-         <DeleteIcon />
-       </IconButton>
-     )}
-
-     <PdfUploader />
-     <Divider sx={{ mt:"50px",borderColor: "#213555" }} />
-   </Box>
- ))}
-
- <CustomButton variant="tertiary" onClick={handleAddAnother}>
-  Add Another Report +
- </CustomButton>
- <Box sx={{ display: "flex", justifyContent: "space-between" ,gap:3
- }}>
-
- <CustomButton sx={{width:"50%"}} onClick={handleBack} variant="secondary">
-   Back
- </CustomButton>
- <CustomButton endIcon={<CloudUpload/>}sx={{width:"50%"}} variant="tertiary" type="submit">
-   Upload
- </CustomButton>
- </Box>
-</Box>
-       )}
        
-      </Box>
+        <Box
+          sx={{
+            background: "#FAF7F3",
+            width: "90%",
+            maxWidth: 600,
+            borderRadius: 3,
+            mb: 3,
+            display: "flex",
+            gap: 2,
+            flexDirection: "column",
+            p: { xs: 3, sm: 4 },
+          }}
+        >
+          <CustomInput
+            label="User Phone Number"
+            type="tel"
+            name="phone"
+            placeholder="Enter User Phone Number"
+            ref={phone}                      
+          />
+             {error&&!userData&&<Typography sx={{textAlign:"center",fontWeight:"600",fontSize:"12px",color:"red"}}>{"Error:"+" "+error}</Typography>}
+          <CustomButton loading={creatingRelation} variant="tertiary" onClick={fetchRelationships}>
+            Fetch User Data
+          </CustomButton>
+        </Box>
+
+        {userData && (
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{
+              width: "90%",
+              maxWidth: 600,
+              bgcolor: "#FAF7F3",
+              borderRadius: 3,
+              display: "flex",
+              flexDirection: "column",
+              gap: 3,
+              p: { xs: 3, sm: 4 },
+            }}
+          >
+            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+              Test Report
+            </Typography>
+
+        
+            <CustomInput
+              label="Test Name"
+              placeholder="e.g., CBC, LFT, Ultrasound"
+              inputVal={report.testName}
+              onInputChange={(val) =>
+                handleReportChange("testName", val)
+              }
+            />
+
+            
+            <CustomSelect
+              label="Relationship"
+              options={[
+                ...relationships.map((r) => ({
+                  label: r.label,
+                  value: r.label,
+                })),
+                { label: "Self", value: "self" },
+                { label: "Add New Relation", value: "Other" },
+              ]}
+              value={report.isOther ? "Other" : report.relationship}
+              onChange={handleRelationshipChange}
+            />
+
+           
+            {report.isOther && (
+              <>
+                <Box sx={{ display: "flex", gap: 2,alignItems:"flex-end" }}>
+                  <CustomInput
+                    label="Enter New Relationship"
+                    placeholder="e.g., Uncle, Aunt, Friend"
+                    inputVal={newRelation.label}
+                    onInputChange={(val) =>
+                      setNewRelation((p) => ({ ...p, label: val }))
+                    }
+                  />
+                  <CustomInput
+                    label="Enter Name"
+                    placeholder="e.g., Ahmed"
+                   
+                    inputVal={newRelation.name}
+                    onInputChange={(val) =>
+                      setNewRelation((p) => ({ ...p, name: val }))
+                    }
+                  />
+                  <Box sx={{}}>
+
+                   <CustomButton
+                  variant="tertiary"
+                  loading={creatingRelation}
+                  
+                  onClick={handleCreateRelation}
+                  >
+                 <Add/>
+                </CustomButton>
+                  </Box>
+                </Box>
+               
+              </>
+            )}
+
+            
+            <PdfUploader report={report} setReport={setReport} />
+
+
+        
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                gap: 3,
+                mt:4
+              }}
+            >
+              <CustomButton
+                sx={{ width: "50%" }}
+                onClick={handleBack}
+                variant="secondary"
+              >
+                Back
+              </CustomButton>
+              <CustomButton
+              onClick={handleSubmit}
+                endIcon={<CloudUpload />}
+                sx={{ width: "50%" }}
+                variant="tertiary"
+                type="submit"
+                loading={uploading}
+
+              >
+                Upload
+              </CustomButton>
+            </Box>
+             {error&&<Typography sx={{textAlign:"center",fontWeight:"600",fontSize:"12px",color:"red"}}>{"Error:"+" "+error}</Typography>}
+             {success && (
+  <Typography sx={{ textAlign: "center", fontWeight: 600, fontSize: "12px", color: "green" }}>
+    {success}
+  </Typography>
+)}
+
+          </Box>
+            
+        )}
+        
+     </Box>
     </>
   );
 };
