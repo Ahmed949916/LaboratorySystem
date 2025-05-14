@@ -8,8 +8,7 @@ import CustomButton from "../../../components/CustomButton";
 import CustomInput from "../../../components/CustomInput";
 import { ArrowForward } from "@mui/icons-material";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
-
+ 
 
 const Login = () => {
        
@@ -17,20 +16,22 @@ const Login = () => {
     phone: "",
     password: "",
   });
+  const [loading,setLoading]=useState(false)
   const [error, setError] = useState(null);
   const router = useRouter();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setLoading(true)
 
     const result = await signIn("admin-credentials", {
       redirect: false,
@@ -41,20 +42,25 @@ const Login = () => {
     });
 
     if (result?.error) {
+
+      setLoading(false)
+
       setError("Invalid admin credentials");
     } else {
+      setLoading(false)
+
       router.push("/admin");
     }
   };
 
   return (
     <Box sx={{ display: "flex", width: "100%", background: "#F5EFE7", minHeight: "100vh", flexDirection: { xs: "column", md: "row" } }}>
-      {/* Left Side (Branding) */}
+       
       <Box sx={{ width: { xs: "100%", md: "50%" }, padding: { xs: 4, md: 0 }, background: "#213555", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
         <Typography color="#F5EFE7" variant="h4">Lab Management</Typography>
       </Box>
 
-      {/* Right Side (Login Form) */}
+    
       <Box sx={{ background: "#F5EFE7", width: { xs: "100%", md: "50%" }, minHeight: "89vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "16px" }}>
         <Box component="form" onSubmit={handleSubmit} sx={{ width: "90%", maxWidth: "400px", borderRadius: "16px", display: "flex", flexDirection: "column", gap: "24px", p: { xs: 3, sm: 4 } }}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -83,7 +89,7 @@ const Login = () => {
           </Box>
 
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <CustomButton sx={{ p: "4px 22px" }} variant="tertiary" type="submit">
+            <CustomButton loading={loading}sx={{ p: "4px 22px" }} variant="tertiary" type="submit">
               <ArrowForward />
             </CustomButton>
           </Box>
