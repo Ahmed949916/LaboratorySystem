@@ -3,7 +3,7 @@ import { Box, CircularProgress, Typography } from '@mui/material';
 import CustomButton from '@/components/CustomButton';
 import PageHead from '@/components/PageHead';
 import AddService from './AddService';
-import { useAuth } from '@/contexts/AuthContext';
+ 
 import { useRouter } from 'next/router';
  
 const ServicesOffered = () => {

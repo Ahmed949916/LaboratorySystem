@@ -13,7 +13,7 @@ const Page = ({ services }) => {
 
 export default Page;
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   return {
     props: {
       services: servicesOfffered
