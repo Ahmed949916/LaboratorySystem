@@ -5,7 +5,7 @@ const secret = process.env.NEXTAUTH_SECRET;
 export async function requireAdmin(req) {
   const token = await getToken({ req, secret });
   if (!token || token.role !== "admin" || !token.sub) throw new Error("UNAUTH");
-  return { labId: token.sub }; // token.sub is the user ID
+  return { labId: token.sub };
 }
 
 export async function requireUser(req) {

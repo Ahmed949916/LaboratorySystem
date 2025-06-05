@@ -1,11 +1,11 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import PageHead from "../../../components/PageHead";
 import Card from "@/components/Card";
-import { FileCopy, LocalHospital, MedicalServices, Home, LocationOn } from "@mui/icons-material";
+import { FileCopy,  Home, LocationOn } from "@mui/icons-material";
 import { useAuth } from "@/contexts/AuthContext";
  
 const Dashboard = () => {
@@ -32,13 +32,7 @@ const Dashboard = () => {
       onClick: () => router.push("/user/reports"),
       icon: FileCopy,
     },
-    // {
-    //   name: "Book a Test",
-    //   description: "Schedule laboratory tests.",
-    //   buttonText: "Book Now",
-    //   onClick: () => router.push("/user/book-test"),
-    //   icon: MedicalServices,
-    // },
+ 
     {
       name: "View Offered Tests",
       description: "Explore the tests available at this lab.",
@@ -46,13 +40,7 @@ const Dashboard = () => {
       onClick: () => router.push("/user/test-offered"),
       icon: Home,
     },
-    // {
-    //   name: "Medical History",
-    //   description: "View your complete medical history for this lab.",
-    //   buttonText: "View",
-    //   onClick: () => router.push("/user/profile"),
-    //   icon: LocalHospital,
-    // },
+ 
   ];
 
   useEffect(() => {
@@ -61,8 +49,7 @@ const Dashboard = () => {
         const data = await res.json();
         const found = data.admins.find(
   (lab) => labId && lab._id.toString() === labId.toString()
-);
-        
+);   
         setLabData(found)
         setLoading(false);
   }

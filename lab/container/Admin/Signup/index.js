@@ -3,11 +3,10 @@
 import React, { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import axios from "axios";
-
+ 
 import CustomButton from "../../../components/CustomButton";
 import CustomInput from  "../../../components/CustomInput";
-import { ArrowForward, ArrowRight } from "@mui/icons-material";
+ 
 import Link from "next/link";
 
 
@@ -31,26 +30,10 @@ const Signup = () => {
     setError(null);
     
 
-    // try {
-    //   const response = await axios.post(
-    //     `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-    //     formData
-    //   );
-    //   console.log("Login successful:", response.data);
-
-    //   localStorage.setItem("user", JSON.stringify(response.data.user));
-
-    //   router.push("/dashboard");
-    // } catch (error) {
-    //   console.error(
-    //     "Login failed:",
-    //     error.response?.data?.error || error.message
-    //   );
-    //   setError(error.response?.data?.error || "An unexpected error occurred.");
-    // }
+ 
     fetch('/api/admin/signup',{
       method:'POST',
-      body:JSON.stringify({admin:formData}),  // Change formData to admin
+      body:JSON.stringify({admin:formData}),   
       headers:{
         'Content-Type':'application/json'
       }

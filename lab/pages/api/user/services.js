@@ -3,11 +3,9 @@ import db from "../../../lib/mongodb";
 
 export default async function handler(req, res) {
   const dbo = await db();
- 
-
+  
  const { labId } = req.query;
  console.log(labId)
- 
 
   if (req.method === "GET") {
     try {
